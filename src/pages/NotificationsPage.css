@@ -1,0 +1,566 @@
+/* ==========================================================================
+   Notifications Page Styles (Welfora Design System)
+   Maintains existing brand palette: --purple, --purple2, --cyan, --panel, etc.
+   ========================================================================== */
+
+/* Page layout container */
+.notifications-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   1. Overview Statistics Bar
+   -------------------------------------------------------------------------- */
+.notifications-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.notifications-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.notifications-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.notifications-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(140, 80, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.notifications-stat-card.stat-violet:hover::before {
+  background: linear-gradient(90deg, var(--purple), var(--purple2));
+}
+
+.notifications-stat-card.stat-cyan:hover::before {
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+}
+
+.notifications-stat-card.stat-mint:hover::before {
+  background: linear-gradient(90deg, #75e6c2, var(--cyan));
+}
+
+.notifications-stat-card.stat-orange:hover::before {
+  background: linear-gradient(90deg, #ff9f43, #ff5252);
+}
+
+/* --------------------------------------------------------------------------
+   2. Modern Notification Channels & Preferences Card
+   -------------------------------------------------------------------------- */
+.notifications-preferences-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(13, 25, 48, 0.8) 0%, rgba(10, 19, 37, 0.95) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.notifications-preferences-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background: radial-gradient(circle at 100% 30%, rgba(140, 80, 255, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.preferences-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.preferences-header-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(140, 80, 255, 0.2), rgba(68, 216, 255, 0.15));
+  border: 1px solid rgba(140, 80, 255, 0.35);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.preferences-header-texts h2 {
+  margin: 0 0 4px 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.preferences-header-texts p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Preference Toggles Grid */
+.preferences-toggles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.preference-toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel2);
+  transition: all 0.2s ease;
+}
+
+.preference-toggle-item:hover {
+  border-color: rgba(140, 80, 255, 0.35);
+  background: rgba(13, 25, 48, 0.95);
+}
+
+.toggle-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.toggle-item-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.toggle-item-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* --------------------------------------------------------------------------
+   3. Filter Tabs & Actions Toolbar
+   -------------------------------------------------------------------------- */
+.notifications-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+.notifications-tabs-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.notif-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.notif-tab-btn:hover {
+  color: var(--text);
+}
+
+.notif-tab-btn.active {
+  background: var(--panel2);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+}
+
+.notif-tab-count {
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: rgba(140, 80, 255, 0.15);
+  color: #c2a6ff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.notif-tab-btn.active .notif-tab-count {
+  background: var(--purple);
+  color: #ffffff;
+}
+
+.notifications-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notif-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 15px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.notif-action-btn:hover:not(:disabled) {
+  border-color: var(--purple);
+  color: var(--purple);
+  transform: translateY(-1px);
+}
+
+.notif-action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.notif-action-btn.btn-restore {
+  border-color: rgba(68, 216, 255, 0.3);
+  color: var(--cyan);
+  background: rgba(68, 216, 255, 0.08);
+}
+
+.notif-action-btn.btn-restore:hover {
+  background: rgba(68, 216, 255, 0.16);
+  border-color: var(--cyan);
+}
+
+/* --------------------------------------------------------------------------
+   4. Notification Cards List
+   -------------------------------------------------------------------------- */
+.notifications-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-card-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  transition: all 0.22s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification-card-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(140, 80, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+}
+
+/* Category Accent Strip on Left */
+.notification-card-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--line);
+  transition: background 0.2s ease;
+}
+
+.notification-card-item.notif-deadline::before {
+  background: linear-gradient(180deg, #ff9f43, #ff5252);
+}
+
+.notification-card-item.notif-general::before {
+  background: linear-gradient(180deg, var(--purple), var(--cyan));
+}
+
+/* Notification Icon */
+.notification-avatar-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.notification-avatar-icon.icon-deadline {
+  background: rgba(255, 159, 67, 0.15);
+  color: #ffaa5a;
+  border: 1px solid rgba(255, 159, 67, 0.35);
+}
+
+.notification-avatar-icon.icon-general {
+  background: rgba(140, 80, 255, 0.15);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.35);
+}
+
+/* Main Content Area */
+.notification-body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.notif-category-chip {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.notif-category-chip.chip-deadline {
+  background: rgba(255, 159, 67, 0.15);
+  color: #ffaa5a;
+  border: 1px solid rgba(255, 159, 67, 0.3);
+}
+
+.notif-category-chip.chip-general {
+  background: rgba(140, 80, 255, 0.15);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.3);
+}
+
+.notif-time-badge {
+  font-size: 12.5px;
+  color: var(--faint);
+  font-weight: 500;
+}
+
+.notification-body-content h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.notification-body-content p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Dismiss Action Button */
+.notif-dismiss-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--faint);
+  font-size: 19px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.notif-dismiss-btn:hover {
+  background: rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.3);
+  color: #ff7b7b;
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   5. Empty State Container
+   -------------------------------------------------------------------------- */
+.notifications-empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  gap: 14px;
+}
+
+.notifications-empty-icon {
+  font-size: 40px;
+}
+
+.notifications-empty-box h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 19.5px;
+  color: var(--text);
+}
+
+.notifications-empty-box p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+  max-width: 440px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   6. Light Theme Overrides
+   -------------------------------------------------------------------------- */
+.wf.light .notifications-stat-card {
+  background: #ffffff;
+  border-color: #e0e5f8;
+  box-shadow: 0 2px 10px rgba(24, 35, 68, 0.04);
+}
+
+.wf.light .notifications-preferences-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f9ff 100%);
+  border-color: #e0e5f8;
+  box-shadow: 0 4px 16px rgba(24, 35, 68, 0.05);
+}
+
+.wf.light .preference-toggle-item {
+  background: #f8f9ff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .preference-toggle-item:hover {
+  background: #f0f3ff;
+  border-color: rgba(112, 81, 244, 0.3);
+}
+
+.wf.light .notifications-tabs-group {
+  background: #ffffff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .notif-tab-btn.active {
+  background: #f4f6ff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .notif-action-btn {
+  background: #ffffff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .notification-card-item {
+  background: #ffffff;
+  border-color: #e0e5f8;
+  box-shadow: 0 2px 8px rgba(24, 35, 68, 0.04);
+}
+
+.wf.light .notification-card-item:hover {
+  background: #fdfdfd;
+  box-shadow: 0 8px 24px rgba(112, 81, 244, 0.08);
+  border-color: rgba(112, 81, 244, 0.35);
+}
+
+.wf.light .notif-dismiss-btn {
+  color: #8590ad;
+}
+
+.wf.light .notif-dismiss-btn:hover {
+  background: rgba(255, 107, 107, 0.12);
+  color: #ff5252;
+}
+
+.wf.light .notifications-empty-box {
+  background: #ffffff;
+  border-color: #e0e5f8;
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .notifications-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .notifications-tabs-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .notif-tab-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .notifications-actions-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .notif-action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}

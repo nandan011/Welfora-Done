@@ -1,0 +1,864 @@
+/* ==========================================================================
+   Profile Page Styles (Welfora Design System)
+   Vertical, Noticeable Details Layout
+   ========================================================================== */
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. Citizen Hero Banner Card
+   -------------------------------------------------------------------------- */
+.profile-hero-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(13, 25, 48, 0.9) 0%, rgba(10, 19, 37, 0.98) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-hero-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  background: radial-gradient(circle at 100% 50%, rgba(140, 80, 255, 0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.profile-hero-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.profile-large-avatar {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(140, 80, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.profile-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.profile-hero-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-hero-meta h2 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.profile-hero-email {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.profile-status-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profile-chip.chip-verified {
+  background: rgba(117, 230, 194, 0.14);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.35);
+}
+
+.profile-chip.chip-role {
+  background: rgba(140, 80, 255, 0.12);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.3);
+}
+
+.profile-chip.chip-state {
+  background: rgba(68, 216, 255, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(68, 216, 255, 0.3);
+}
+
+.profile-chip.chip-status {
+  background: rgba(148, 164, 197, 0.1);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+.profile-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. Shared Section Panel Layout
+   -------------------------------------------------------------------------- */
+.profile-section-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+}
+
+.profile-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-icon-badge {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.section-icon-badge.icon-locked {
+  background: rgba(140, 80, 255, 0.15);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.35);
+}
+
+.section-icon-badge.icon-editable {
+  background: rgba(68, 216, 255, 0.15);
+  color: var(--cyan);
+  border: 1px solid rgba(68, 216, 255, 0.35);
+}
+
+.section-icon-badge.icon-preferences {
+  background: rgba(117, 230, 194, 0.15);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.35);
+}
+
+.section-title-texts h3 {
+  margin: 0 0 3px 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 19.5px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.section-title-texts p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Badges */
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.badge-locked {
+  background: rgba(140, 80, 255, 0.12);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.3);
+}
+
+.badge-editable {
+  background: rgba(68, 216, 255, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(68, 216, 255, 0.35);
+}
+
+.badge-preferences {
+  background: rgba(117, 230, 194, 0.12);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   3. Vertical Details Group (Clean, Noticeable Rows)
+   -------------------------------------------------------------------------- */
+.vertical-details-group {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel2);
+  overflow: hidden;
+}
+
+.detail-vertical-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  gap: 20px;
+  transition: background 0.15s ease;
+}
+
+.detail-vertical-row:last-child {
+  border-bottom: none;
+}
+
+.detail-vertical-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.detail-row-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 210px;
+  flex-shrink: 0;
+}
+
+.detail-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.detail-label {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.1px;
+}
+
+.detail-row-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex: 1;
+  text-align: right;
+  min-width: 0;
+}
+
+.detail-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.1px;
+  word-break: break-word;
+}
+
+.detail-value .not-set {
+  color: var(--faint);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.detail-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.detail-status-pill.locked-pill {
+  background: rgba(140, 80, 255, 0.12);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.28);
+}
+
+.detail-status-pill.editable-pill {
+  background: rgba(68, 216, 255, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(68, 216, 255, 0.3);
+}
+
+/* Interests Vertical Row */
+.interests-vertical-row {
+  align-items: flex-start;
+  padding: 16px 20px;
+}
+
+.interests-vertical-row .detail-row-header {
+  padding-top: 2px;
+}
+
+.chips-content {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chips-flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.interest-locked-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: rgba(140, 80, 255, 0.12);
+  border: 1px solid rgba(140, 80, 255, 0.28);
+  color: #c2a6ff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.section-info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(140, 80, 255, 0.06);
+  border: 1px dashed rgba(140, 80, 255, 0.28);
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.section-info-banner .info-icon {
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Action Buttons (Edit, Save Changes, Cancel)
+   -------------------------------------------------------------------------- */
+.btn-edit-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(68, 216, 255, 0.4);
+  background: rgba(68, 216, 255, 0.12);
+  color: var(--cyan);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit-main:hover {
+  background: rgba(68, 216, 255, 0.22);
+  border-color: var(--cyan);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(68, 216, 255, 0.2);
+}
+
+.btn-save-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid #8450ff;
+  background: linear-gradient(105deg, #7847f6, #a044f5 62%, #4d9cff);
+  color: white;
+  font-weight: 700;
+  font-size: 14.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(130, 69, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-save-edit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(130, 69, 255, 0.45);
+}
+
+.btn-cancel-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel-edit:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   5. Edit Mode: Vertical Form Rows
+   -------------------------------------------------------------------------- */
+.additional-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-mode-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: rgba(68, 216, 255, 0.08);
+  border: 1px solid rgba(68, 216, 255, 0.3);
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.vertical-form-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vertical-form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel2);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vertical-form-item:focus-within {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(68, 216, 255, 0.15);
+}
+
+.vertical-form-item label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-item-icon {
+  font-size: 15px;
+}
+
+.form-item-label {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.req-marker {
+  color: #ff5277;
+  font-weight: 700;
+}
+
+.vertical-form-item select,
+.vertical-form-item input,
+.vertical-form-item textarea {
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 14.5px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.vertical-form-item select:focus,
+.vertical-form-item input:focus,
+.vertical-form-item textarea:focus {
+  border-color: var(--cyan);
+}
+
+.vertical-form-item textarea {
+  min-height: 64px;
+  resize: vertical;
+}
+
+.form-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* --------------------------------------------------------------------------
+   6. Section 3: Preferences Vertical Rows
+   -------------------------------------------------------------------------- */
+.pref-vertical-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  gap: 20px;
+}
+
+.pref-vertical-row:last-child {
+  border-bottom: none;
+}
+
+.pref-row-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pref-row-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(117, 230, 194, 0.12);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.25);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pref-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.pref-row-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.pref-row-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.pref-row-right {
+  flex-shrink: 0;
+}
+
+.pref-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pref-toggle-btn:hover {
+  border-color: var(--purple);
+  color: var(--text);
+}
+
+.pref-toggle-btn.active {
+  background: rgba(117, 230, 194, 0.1);
+  border-color: rgba(117, 230, 194, 0.4);
+  color: #75e6c2;
+}
+
+/* --------------------------------------------------------------------------
+   7. Page Navigation Footer
+   -------------------------------------------------------------------------- */
+.profile-page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Light Theme Support (.wf.light)
+   -------------------------------------------------------------------------- */
+.wf.light .profile-hero-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f6f9fc 100%);
+  border-color: #dce5ed;
+  box-shadow: 0 4px 18px rgba(24, 35, 68, 0.05);
+}
+
+.wf.light .profile-hero-card::after {
+  background: radial-gradient(circle at 100% 50%, rgba(38, 140, 191, 0.1), transparent 70%);
+}
+
+.wf.light .profile-section-panel {
+  background: #ffffff;
+  border-color: #dce5ed;
+  box-shadow: 0 3px 14px rgba(24, 35, 68, 0.04);
+}
+
+.wf.light .vertical-details-group,
+.wf.light .vertical-form-item {
+  background: #f7fafc;
+  border-color: #e0e9f0;
+}
+
+.wf.light .detail-vertical-row:hover {
+  background: #edf4f8;
+}
+
+.wf.light .detail-icon {
+  background: #ffffff;
+  border-color: #dce5ed;
+}
+
+.wf.light .detail-value {
+  color: #0f2738;
+}
+
+.wf.light .detail-label {
+  color: #557185;
+}
+
+.wf.light .detail-status-pill.locked-pill {
+  background: #f0eaff;
+  color: #6236df;
+  border-color: #d6c5fe;
+}
+
+.wf.light .detail-status-pill.editable-pill {
+  background: #e6f6fb;
+  color: #0c7fa8;
+  border-color: #b7e3f2;
+}
+
+.wf.light .interest-locked-chip {
+  background: #f0eaff;
+  color: #6236df;
+  border-color: #d6c5fe;
+}
+
+.wf.light .vertical-form-item select,
+.wf.light .vertical-form-item input,
+.wf.light .vertical-form-item textarea {
+  background: #ffffff;
+  border-color: #dce5ed;
+  color: #0f2738;
+}
+
+.wf.light .btn-edit-main {
+  background: rgba(38, 140, 191, 0.1);
+  border-color: rgba(38, 140, 191, 0.35);
+  color: #1e7b9e;
+}
+
+.wf.light .btn-edit-main:hover {
+  background: rgba(38, 140, 191, 0.18);
+  border-color: #1e7b9e;
+}
+
+.wf.light .pref-toggle-btn {
+  background: #ffffff;
+  border-color: #dce5ed;
+}
+
+.wf.light .pref-toggle-btn.active {
+  background: #e6f7f4;
+  border-color: #8edcd0;
+  color: #0b8077;
+}
+
+/* --------------------------------------------------------------------------
+   9. Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .profile-hero-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+  }
+
+  .profile-hero-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-hero-actions {
+    width: 100%;
+  }
+
+  .profile-hero-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .profile-section-panel {
+    padding: 18px 14px;
+  }
+
+  .profile-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-edit-main {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .detail-vertical-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .detail-row-header {
+    min-width: 0;
+  }
+
+  .detail-row-content {
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+  }
+
+  .chips-content {
+    align-items: flex-start;
+  }
+
+  .chips-flex-wrap {
+    justify-content: flex-start;
+  }
+
+  .pref-vertical-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .pref-row-right {
+    width: 100%;
+  }
+
+  .pref-row-right button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .profile-page-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-page-footer button {
+    width: 100%;
+    justify-content: center;
+  }
+}

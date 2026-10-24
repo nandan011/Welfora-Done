@@ -1,0 +1,981 @@
+/* ==========================================================================
+   Deadlines Page Styles (Welfora Design System)
+   Maintains existing brand palette: --purple, --purple2, --cyan, --panel, etc.
+   ========================================================================== */
+
+/* Page layout container */
+.deadlines-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. Deadlines Summary / Overview Metrics
+   -------------------------------------------------------------------------- */
+.deadlines-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.deadlines-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.deadlines-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.deadlines-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(140, 80, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.deadlines-stat-card.stat-violet:hover::before {
+  background: linear-gradient(90deg, var(--purple), var(--purple2));
+}
+
+.deadlines-stat-card.stat-cyan:hover::before {
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+}
+
+.deadlines-stat-card.stat-mint:hover::before {
+  background: linear-gradient(90deg, #75e6c2, var(--cyan));
+}
+
+.deadlines-stat-card.stat-orange:hover::before {
+  background: linear-gradient(90deg, #ff9f43, #ff5252);
+}
+
+.stat-card-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.stat-card-icon.icon-violet {
+  background: rgba(140, 80, 255, 0.15);
+  color: #c2a6ff;
+  border: 1px solid rgba(140, 80, 255, 0.3);
+}
+
+.stat-card-icon.icon-cyan {
+  background: rgba(68, 216, 255, 0.14);
+  color: var(--cyan);
+  border: 1px solid rgba(68, 216, 255, 0.3);
+}
+
+.stat-card-icon.icon-mint {
+  background: rgba(117, 230, 194, 0.15);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.3);
+}
+
+.stat-card-icon.icon-orange {
+  background: rgba(255, 159, 67, 0.15);
+  color: #ffaa5a;
+  border: 1px solid rgba(255, 159, 67, 0.3);
+}
+
+.stat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stat-card-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.stat-card-label {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   2. Modern Reminder Preferences Banner
+   -------------------------------------------------------------------------- */
+.deadlines-preference-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(13, 25, 48, 0.8) 0%, rgba(10, 19, 37, 0.95) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.deadlines-preference-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  background: radial-gradient(circle at 100% 50%, rgba(140, 80, 255, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.preference-banner-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.preference-banner-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(140, 80, 255, 0.2), rgba(68, 216, 255, 0.15));
+  border: 1px solid rgba(140, 80, 255, 0.35);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.preference-banner-texts h2 {
+  margin: 0 0 4px 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.preference-banner-texts p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.preference-banner-control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.preference-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.preference-status-tag.active {
+  background: rgba(117, 230, 194, 0.12);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.3);
+}
+
+.preference-status-tag.active .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #75e6c2;
+  box-shadow: 0 0 8px #75e6c2;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.preference-status-tag.paused {
+  background: rgba(148, 164, 197, 0.1);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+/* Custom Sleek Switch */
+.switch-control {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+}
+
+.switch-control input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--panel2);
+  border: 1px solid var(--line);
+  transition: 0.25s ease;
+  border-radius: 26px;
+}
+
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--muted);
+  transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+}
+
+.switch-control input:checked + .switch-slider {
+  background: linear-gradient(105deg, var(--purple), var(--purple2));
+  border-color: var(--purple2);
+  box-shadow: 0 0 12px rgba(140, 80, 255, 0.35);
+}
+
+.switch-control input:checked + .switch-slider::before {
+  transform: translateX(22px);
+  background-color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   3. Filter & Search Controls Bar
+   -------------------------------------------------------------------------- */
+.deadlines-filterbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.deadlines-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 240px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deadlines-search-wrap:focus-within {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 2px rgba(140, 80, 255, 0.2);
+}
+
+.deadlines-search-wrap span {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.deadlines-search-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 14.5px;
+  width: 100%;
+}
+
+.deadlines-search-wrap input::placeholder {
+  color: var(--faint);
+}
+
+.deadlines-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deadlines-select {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.deadlines-select:focus {
+  border-color: var(--purple);
+}
+
+/* --------------------------------------------------------------------------
+   4. Deadline Cards List
+   -------------------------------------------------------------------------- */
+.deadlines-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.deadlines-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.deadlines-count-chip {
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(140, 80, 255, 0.15);
+  color: #c2a6ff;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(140, 80, 255, 0.3);
+}
+
+.deadlines-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.deadline-card-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  transition: all 0.22s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.deadline-card-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(140, 80, 255, 0.45);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+}
+
+/* Calendar Date Block */
+.deadline-calendar-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 62px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel2);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-month {
+  width: 100%;
+  padding: 3px 0;
+  background: linear-gradient(90deg, var(--purple), var(--purple2));
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.calendar-day {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  padding: 5px 8px 1px;
+}
+
+.calendar-year {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+/* Scheme Icon */
+.deadline-scheme-symbol {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.deadline-scheme-symbol.violet {
+  background: #25164a;
+  color: #c2a6ff;
+  border: 1px solid #4a2c8c;
+}
+
+.deadline-scheme-symbol.blue {
+  background: #11283d;
+  color: #73dfff;
+  border: 1px solid #1a496b;
+}
+
+.deadline-scheme-symbol.green,
+.deadline-scheme-symbol.mint {
+  background: #102e29;
+  color: #75e6c2;
+  border: 1px solid #1c574c;
+}
+
+.deadline-scheme-symbol.orange {
+  background: #331f13;
+  color: #ffaa5a;
+  border: 1px solid #663b1f;
+}
+
+/* Scheme Details */
+.deadline-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.deadline-info-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.deadline-info-header h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.deadline-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.deadline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--panel2);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+.deadline-badge.match-pill {
+  background: rgba(140, 80, 255, 0.12);
+  color: #c2a6ff;
+  border-color: rgba(140, 80, 255, 0.3);
+  font-weight: 600;
+}
+
+/* Urgency / Countdown Pill */
+.deadline-urgency-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+  min-width: 140px;
+}
+
+.urgency-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.urgency-badge.urgent {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff7b7b;
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  box-shadow: 0 0 12px rgba(255, 107, 107, 0.2);
+}
+
+.urgency-badge.warning {
+  background: rgba(255, 159, 67, 0.15);
+  color: #ffaa5a;
+  border: 1px solid rgba(255, 159, 67, 0.4);
+}
+
+.urgency-badge.normal {
+  background: rgba(68, 216, 255, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(68, 216, 255, 0.3);
+}
+
+.deadline-verif-note {
+  font-size: 12.5px;
+  color: var(--faint);
+  text-align: right;
+}
+
+/* Action Buttons */
+.deadline-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-details {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(140, 80, 255, 0.4);
+  background: linear-gradient(135deg, rgba(140, 80, 255, 0.15), rgba(68, 216, 255, 0.1));
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-details:hover {
+  background: linear-gradient(105deg, var(--purple), var(--purple2));
+  color: #ffffff;
+  border-color: var(--purple2);
+  box-shadow: 0 4px 14px rgba(140, 80, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-bookmark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel2);
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-bookmark:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+.btn-bookmark.saved {
+  background: rgba(140, 80, 255, 0.18);
+  border-color: var(--purple);
+  color: #c2a6ff;
+}
+
+/* --------------------------------------------------------------------------
+   5. Undated & Rolling Schemes Section
+   -------------------------------------------------------------------------- */
+.undated-schemes-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  margin-top: 10px;
+}
+
+.undated-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.undated-title-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.undated-icon-box {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(117, 230, 194, 0.12);
+  color: #75e6c2;
+  border: 1px solid rgba(117, 230, 194, 0.25);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.undated-text-content h3 {
+  margin: 0 0 6px 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.undated-text-content p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 720px;
+}
+
+.undated-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.undated-mini-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.undated-mini-item:hover {
+  border-color: rgba(68, 216, 255, 0.35);
+  background: rgba(13, 25, 48, 0.95);
+  transform: translateY(-1px);
+}
+
+.undated-mini-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.undated-mini-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.undated-mini-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.undated-mini-info b {
+  font-size: 14.5px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.undated-mini-info span {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.undated-status-tag {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(117, 230, 194, 0.1);
+  color: #75e6c2;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(117, 230, 194, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Empty or paused state notice */
+.deadlines-paused-notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  gap: 12px;
+}
+
+.deadlines-paused-icon {
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+
+.deadlines-paused-notice h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 19.5px;
+  color: var(--text);
+}
+
+.deadlines-paused-notice p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+  max-width: 440px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   6. Light Theme Overrides
+   -------------------------------------------------------------------------- */
+.wf.light .deadlines-stat-card {
+  background: #ffffff;
+  border-color: #e0e5f8;
+  box-shadow: 0 2px 10px rgba(24, 35, 68, 0.04);
+}
+
+.wf.light .deadlines-stat-card:hover {
+  box-shadow: 0 8px 24px rgba(24, 35, 68, 0.08);
+}
+
+.wf.light .deadlines-preference-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f9ff 100%);
+  border-color: #e0e5f8;
+  box-shadow: 0 4px 16px rgba(24, 35, 68, 0.05);
+}
+
+.wf.light .preference-banner-icon {
+  background: rgba(112, 81, 244, 0.1);
+  border-color: rgba(112, 81, 244, 0.25);
+}
+
+.wf.light .switch-slider {
+  background-color: #e0e5f8;
+  border-color: #ccd4f0;
+}
+
+.wf.light .switch-slider::before {
+  background-color: #8590ad;
+}
+
+.wf.light .switch-control input:checked + .switch-slider::before {
+  background-color: #ffffff;
+}
+
+.wf.light .deadlines-search-wrap,
+.wf.light .deadlines-select {
+  background: #ffffff;
+  border-color: #e0e5f8;
+  box-shadow: 0 1px 4px rgba(24, 35, 68, 0.03);
+}
+
+.wf.light .deadline-card-item {
+  background: #ffffff;
+  border-color: #e0e5f8;
+  box-shadow: 0 2px 8px rgba(24, 35, 68, 0.04);
+}
+
+.wf.light .deadline-card-item:hover {
+  background: #fdfdfd;
+  box-shadow: 0 8px 24px rgba(112, 81, 244, 0.09);
+  border-color: rgba(112, 81, 244, 0.35);
+}
+
+.wf.light .deadline-calendar-badge {
+  background: #f4f6ff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .deadline-badge {
+  background: #f4f6ff;
+  border-color: #e0e5f8;
+  color: #637092;
+}
+
+.wf.light .btn-details {
+  background: rgba(112, 81, 244, 0.08);
+  border-color: rgba(112, 81, 244, 0.3);
+  color: #7051f4;
+}
+
+.wf.light .btn-details:hover {
+  background: linear-gradient(105deg, var(--purple), var(--purple2));
+  color: #ffffff;
+}
+
+.wf.light .btn-bookmark {
+  background: #f4f6ff;
+  border-color: #e0e5f8;
+  color: #637092;
+}
+
+.wf.light .undated-schemes-card {
+  background: #ffffff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .undated-mini-item {
+  background: #f8f9ff;
+  border-color: #e0e5f8;
+}
+
+.wf.light .undated-mini-item:hover {
+  background: #f0f3ff;
+  border-color: rgba(112, 81, 244, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .deadline-card-item {
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+  }
+
+  .deadline-calendar-badge {
+    grid-row: span 2;
+  }
+
+  .deadline-urgency-wrapper {
+    align-items: flex-start;
+    grid-column: 2;
+  }
+
+  .deadline-actions-group {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .deadlines-preference-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .preference-banner-control {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .deadlines-filterbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .deadlines-filter-group {
+    width: 100%;
+  }
+
+  .deadlines-select {
+    flex: 1;
+  }
+
+  .deadline-card-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .deadline-calendar-badge {
+    align-self: flex-start;
+  }
+
+  .deadline-actions-group {
+    width: 100%;
+  }
+
+  .btn-details {
+    flex: 1;
+    justify-content: center;
+  }
+}
