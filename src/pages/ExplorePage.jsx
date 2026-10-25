@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import PageTitle from '../components/PageTitle';
 import SchemeCard from '../components/SchemeCard';
 import Empty from '../components/Empty';
-import SchemeDetailPage from './SchemeDetailPage';
 import { SearchIcon } from '../components/Icons';
 import { categories } from '../data/categories';
 import { ALL_INDIAN_STATES } from '../services/schemeService';

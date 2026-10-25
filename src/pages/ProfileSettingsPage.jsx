@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import { SunIcon, MoonIcon } from '../components/Icons';
 import { useWelfora } from '../context/WelforaContext';
 
 export default function ProfileSettingsPage({ title = 'Profile', go }) {
+  // useNavigate: programmatically navigate to sub-pages
+  const navigate = useNavigate();
   const {
     profileName,
     setProfileName,
@@ -56,7 +59,7 @@ export default function ProfileSettingsPage({ title = 'Profile', go }) {
             <b>Saved schemes</b>
             <p>{saved.length} scheme(s) saved on this device.</p>
           </div>
-          <button className="outline-btn" onClick={() => go('Saved Schemes')}>
+          <button className="outline-btn" onClick={() => navigate('/saved')}>
             View saved
           </button>
         </div>
@@ -66,7 +69,7 @@ export default function ProfileSettingsPage({ title = 'Profile', go }) {
             <b>Deadline reminders</b>
             <p>Control in-app deadline and tip notifications.</p>
           </div>
-          <button className="outline-btn" onClick={() => go('Notifications')}>
+          <button className="outline-btn" onClick={() => navigate('/notifications')}>
             Manage reminders
           </button>
         </div>

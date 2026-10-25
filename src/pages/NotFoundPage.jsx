@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 
-export default function NotFoundPage({ go }) {
+export default function NotFoundPage() {
   return (
     <section className="page-content">
       <PageTitle
@@ -8,9 +9,10 @@ export default function NotFoundPage({ go }) {
         title="This page does not exist."
         subtitle="Use the dashboard to get back to your Welfora workspace."
       />
-      <button className="primary-btn" onClick={() => go('Dashboard')}>
+      {/* Declarative Link back to home */}
+      <Link to="/" className="primary-btn" style={{ textDecoration: 'none' }}>
         Back to dashboard →
-      </button>
+      </Link>
     </section>
   );
 }

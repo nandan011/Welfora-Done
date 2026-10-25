@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import { useWelfora } from '../context/WelforaContext';
 import { ALL_INDIAN_STATES } from '../services/schemeService';
@@ -16,6 +17,8 @@ const OCCUPATION_OPTIONS = [
 ];
 
 export default function EligibilityPage({ go }) {
+  // useNavigate: route to detailed profile questionnaire
+  const navigate = useNavigate();
   const {
     eligibility,
     setEligibility,
@@ -111,11 +114,9 @@ export default function EligibilityPage({ go }) {
             <button className="primary-btn" onClick={handleCheckGuidance}>
               Find relevant guidance <span>→</span>
             </button>
-            {go && (
-              <button className="outline-btn" onClick={() => go('Find My Schemes')}>
-                Full Profile Finder →
-              </button>
-            )}
+            <button className="outline-btn" onClick={() => navigate('/find-schemes')}>
+              Full Profile Finder →
+            </button>
           </div>
         </div>
 

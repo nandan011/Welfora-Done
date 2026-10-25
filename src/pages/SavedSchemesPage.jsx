@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import SchemeCard from '../components/SchemeCard';
 import Empty from '../components/Empty';
 import { useWelfora } from '../context/WelforaContext';
 
 export default function SavedSchemesPage({ go }) {
+  // useNavigate: programmatically route to explore catalog
+  const navigate = useNavigate();
   const {
     schemes,
     saved,
@@ -40,7 +43,7 @@ export default function SavedSchemesPage({ go }) {
           title="Nothing saved yet"
           text="Explore schemes and press the heart to save them here."
           action="Explore schemes"
-          onAction={() => go('Explore Schemes')}
+          onAction={() => navigate('/explore')}
         />
       )}
     </section>

@@ -1,63 +1,83 @@
+// Topbar: Demonstrates <NavLink> for top navigation and useLocation for dynamic breadcrumbs
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useWelfora } from '../context/WelforaContext';
 import { BellIcon, SearchIcon } from './Icons';
 
-const TOP_LINKS = ['Dashboard', 'Explore Schemes', 'AI Assistant', 'About Us'];
+const TOP_LINKS = [
+  ['Dashboard', '/'],
+  ['Explore Schemes', '/explore'],
+  ['AI Assistant', '/chatbot'],
+  ['About Us', '/about'],
+];
 
-export default function Topbar({ page, go }) {
+const ROUTE_TITLES = {
+  '/': 'Dashboard',
+  '/explore': 'Explore Schemes',
+  '/find-schemes': 'Find My Schemes',
+  '/recommended': 'Recommended',
+  '/saved': 'Saved Schemes',
+  '/deadlines': 'Deadlines',
+  '/chatbot': 'AI Assistant',
+  '/notifications': 'Notifications',
+  '/profile': 'Profile',
+  '/settings': 'Settings',
+  '/eligibility': 'Eligibility Guide',
+  '/about': 'About Us',
+};
+
+export default function Topbar() {
   const { profileName, visibleNotifications } = useWelfora();
+  // useLocation: inspects current URL pathname
+  const location = useLocation();
 
-  function handleTopLink(linkName) {
-    go(linkName);
-  }
-
-  function isLinkActive(linkName) {
-    if (linkName === 'Dashboard' && (page === 'Dashboard' || page === 'Home')) return true;
-    return page === linkName;
-  }
+  const currentTitle =
+    ROUTE_TITLES[location.pathname] ||
+    (location.pathname.startsWith('/scheme/') ? 'Scheme Details' : 'Citizen Portal');
 
   return (
     <header className="topbar">
       <div className="crumb">
         <span>Citizen Portal</span>
         <b>/</b>
-        <strong>{page}</strong>
+        <strong>{currentTitle}</strong>
       </div>
 
       <nav className="top-links">
-        {TOP_LINKS.map(item => (
-          <button
-            key={item}
-            className={isLinkActive(item) ? 'chosen' : ''}
-            onClick={() => handleTopLink(item)}
+        {TOP_LINKS.map(([label, path]) => (
+          <NavLink
+            key={label}
+            to={path}
+            end={path === '/'}
+            className={({ isActive }) => (isActive ? 'chosen' : '')}
           >
-            {item}
-          </button>
+            {label}
+          </NavLink>
         ))}
       </nav>
 
       <div className="top-actions">
-        <button
+        <Link
+          to="/explore"
           className="round"
           title="Search schemes"
           aria-label="Search schemes"
-          onClick={() => go('Explore Schemes')}
         >
           <SearchIcon size={16} />
-        </button>
+        </Link>
 
-        <button
+        <Link
+          to="/notifications"
           className="round round-bell"
           title={`Notifications (${visibleNotifications.length} active)`}
           aria-label={`Notifications (${visibleNotifications.length} active)`}
-          onClick={() => go('Notifications')}
         >
           <BellIcon size={17} />
           {visibleNotifications.length > 0 && <i className="ping" />}
-        </button>
+        </Link>
 
-        <button
+        <Link
+          to="/profile"
           className="top-profile-chip"
-          onClick={() => go('Profile')}
           title="View profile & settings"
           aria-label="View profile & settings"
         >
@@ -65,14 +85,14 @@ export default function Topbar({ page, go }) {
             {profileName.charAt(0).toUpperCase()}
           </div>
           <span className="top-profile-name">{profileName.split(' ')[0]}</span>
-        </button>
+        </Link>
 
-        <button
+        <Link
+          to="/find-schemes"
           className="primary-btn small"
-          onClick={() => go('Find My Schemes')}
         >
           Find Schemes
-        </button>
+        </Link>
       </div>
     </header>
   );

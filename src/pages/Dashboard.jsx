@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Metric from '../components/Metric';
 import QuickStat from '../components/QuickStat';
 import { SearchIcon } from '../components/Icons';
@@ -38,6 +39,8 @@ const HOW_IT_WORKS = [
 ];
 
 export default function Dashboard({ go }) {
+  // useNavigate: React Router hook for programmatic navigation
+  const navigate = useNavigate();
   const {
     schemes,
     assessedSchemes,
@@ -83,10 +86,10 @@ export default function Dashboard({ go }) {
             Discover government schemes tailored for you and your family, understand eligibility in clear plain language, and navigate applications with confidence.
           </p>
           <div className="hero-actions">
-            <button className="primary-btn" onClick={() => go('Find My Schemes')}>
+            <button className="primary-btn" onClick={() => navigate('/find-schemes')}>
               Find Schemes For Me <span>→</span>
             </button>
-            <button className="hero-secondary" onClick={() => go('Explore Schemes')}>
+            <button className="hero-secondary" onClick={() => navigate('/explore')}>
               Explore all {totalSchemesCount > 0 ? `${totalSchemesCount} ` : ''}schemes
             </button>
           </div>
@@ -192,11 +195,11 @@ export default function Dashboard({ go }) {
             </span>
             <input
               readOnly
-              onClick={() => go('Explore Schemes')}
+              onClick={() => navigate('/explore')}
               placeholder="Search schemes, benefits…"
               style={{ cursor: 'pointer' }}
             />
-            <button onClick={() => go('Explore Schemes')}>↗</button>
+            <button onClick={() => navigate('/explore')}>↗</button>
           </label>
         </div>
 
@@ -206,28 +209,28 @@ export default function Dashboard({ go }) {
             title="Available Schemes"
             number={apiLoading ? '...' : totalSchemesCount}
             color="blue"
-            onClick={() => go('Explore Schemes')}
+            onClick={() => navigate('/explore')}
           />
           <QuickStat
             icon="🎓"
             title="Eligible Schemes"
             number={apiLoading ? '...' : eligibleCount}
             color="violet"
-            onClick={() => go('Recommended')}
+            onClick={() => navigate('/recommended')}
           />
           <QuickStat
             icon="❤️"
             title="Saved Schemes"
             number={saved.length}
             color="mint"
-            onClick={() => go('Saved Schemes')}
+            onClick={() => navigate('/saved')}
           />
           <QuickStat
             icon="⏱️"
             title="Upcoming Deadlines"
             number={reminderPreferences.upcomingDeadlines ? deadlineItems.length : 0}
             color="orange"
-            onClick={() => go('Deadlines')}
+            onClick={() => navigate('/deadlines')}
           />
         </div>
       </div>
@@ -237,7 +240,7 @@ export default function Dashboard({ go }) {
         <div className="panel recommendation-panel">
           <div className="panel-heading">
             <h2>Top Recommended for You</h2>
-            <button onClick={() => go('Recommended')}>View all ↗</button>
+            <button onClick={() => navigate('/recommended')}>View all ↗</button>
           </div>
           {recommended.map(s => {
             const matchScore = s.fit?.score || s.match || 75;
@@ -261,7 +264,7 @@ export default function Dashboard({ go }) {
           <div className="panel deadlines-panel">
             <div className="panel-heading">
               <h2>Upcoming Deadlines</h2>
-              <button onClick={() => go('Deadlines')}>View all ↗</button>
+              <button onClick={() => navigate('/deadlines')}>View all ↗</button>
             </div>
             {(reminderPreferences.upcomingDeadlines ? deadlineItems.slice(0, 3) : []).map((s, i) => (
               <button className="deadline-mini" key={s.id} onClick={() => setSelectedScheme(s)}>
@@ -279,7 +282,7 @@ export default function Dashboard({ go }) {
           </div>
 
           {/* Welfora Assistant CTA */}
-          <button className="assistant-banner" onClick={() => go('AI Assistant')}>
+          <button className="assistant-banner" onClick={() => navigate('/chatbot')}>
             <span className="assistant-mini">✦</span>
             <span>
               <b>Ask Welfora</b>
@@ -289,7 +292,7 @@ export default function Dashboard({ go }) {
           </button>
 
           {/* Find Schemes CTA */}
-          <button className="find-schemes-banner" onClick={() => go('Find My Schemes')}>
+          <button className="find-schemes-banner" onClick={() => navigate('/find-schemes')}>
             <span className="find-schemes-mini">🔍</span>
             <span>
               <b>Find Schemes For Me</b>
@@ -307,7 +310,7 @@ export default function Dashboard({ go }) {
             <h2>Explore by category</h2>
             <p>Find support for what matters to you.</p>
           </div>
-          <button onClick={() => go('Explore Schemes')}>All categories ↗</button>
+          <button onClick={() => navigate('/explore')}>All categories ↗</button>
         </div>
         <div className="category-tiles">
           {categories.map(c => (
@@ -316,7 +319,7 @@ export default function Dashboard({ go }) {
               key={c[0]}
               onClick={() => {
                 setExploreCategory(c[0]);
-                go('Explore Schemes');
+                navigate('/explore');
               }}
             >
               <span className={`category-icon ${c[3]}`}>{c[1]}</span>

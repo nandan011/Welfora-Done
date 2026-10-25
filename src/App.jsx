@@ -1,33 +1,25 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
+import { lazy, useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
-import AuthScreen from './components/AuthScreen';
-import Sidebar from './components/Sidebar';
-import Topbar from './components/Topbar';
-import SchemeModal from './components/SchemeModal';
-import Dashboard from './pages/Dashboard';
-import PageViews from './pages/PageViews';
 import { WelforaProvider, useWelfora } from './context/WelforaContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
+import AuthScreen from './components/AuthScreen';
+import Dashboard from './pages/Dashboard';
+import ExplorePage from './pages/ExplorePage';
+import FindSchemesPage from './pages/FindSchemesPage';
+import SavedSchemesPage from './pages/SavedSchemesPage';
+import ProfileSettingsPage from './pages/ProfileSettingsPage';
+import EligibilityPage from './pages/EligibilityPage';
+import AboutPage from './pages/AboutPage';
+import NotFoundPage from './pages/NotFoundPage';
 
-const pagePaths = {
-  Dashboard: '/',
-  Home: '/',
-  Recommended: '/recommended',
-  'Explore Schemes': '/explore',
-  'Find My Schemes': '/find-schemes',
-  'Saved Schemes': '/saved',
-  Deadlines: '/deadlines',
-  'AI Assistant': '/chatbot',
-  Notifications: '/notifications',
-  Profile: '/profile',
-  Settings: '/settings',
-  'Eligibility Guide': '/eligibility',
-  'About Us': '/about',
-};
-
-const pathPages = Object.fromEntries(
-  Object.entries(pagePaths).map(([label, path]) => [path, label])
-);
+// React.lazy: Code splitting for heavy routes to reduce initial JS bundle size
+const DeadlinesPage = lazy(() => import('./pages/DeadlinesPage'));
+const AssistantPage = lazy(() => import('./pages/AssistantPage'));
+const NotificationsPage = lazy(() => import('./pages/NotificationsPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const SchemeDetailPage = lazy(() => import('./pages/SchemeDetailPage'));
 
 const incomeToNumber = {
   'Below ₹1 lakh': '75000',
@@ -40,53 +32,28 @@ const incomeToNumber = {
 
 export default function App() {
   return (
+    // BrowserRouter: HTML5 history API router providing client-side navigation
     <BrowserRouter>
       <WelforaProvider>
-        <WelforaApp />
+        <WelforaRoutes />
       </WelforaProvider>
     </BrowserRouter>
   );
 }
 
-function WelforaApp() {
+function WelforaRoutes() {
   const navigate = useNavigate();
-  const location = useLocation();
-
   const {
-    dark,
     authSession,
     setAuthSession,
     setProfileName,
     setEligibility,
-    selectedScheme,
-    setSelectedScheme,
-    saved,
-    toggleSave,
-    applyScheme,
-    toast,
-    toastType,
-    notify,
   } = useWelfora();
-
-  const [page, setPage] = useState(pathPages[location.pathname] || 'Not Found');
 
   // Personalization animation state
   const [pendingSession, setPendingSession] = useState(null);
   const [personalizing, setPersonalizing] = useState(false);
   const [personalizationProgress, setPersonalizationProgress] = useState(0);
-
-  // Sync route with page state
-  useEffect(() => {
-    setPage(pathPages[location.pathname] || 'Not Found');
-    setSelectedScheme(null);
-  }, [location.pathname, setSelectedScheme]);
-
-  function go(to) {
-    setPage(to);
-    setSelectedScheme(null);
-    navigate(pagePaths[to] || '/');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 
   function handleAuthComplete(account) {
     const profile = account.profile || {};
@@ -109,7 +76,7 @@ function WelforaApp() {
     setPersonalizing(true);
   }
 
-  // Personalization progress
+  // Personalization progress simulation
   useEffect(() => {
     if (!personalizing || !pendingSession) return undefined;
     const startedAt = Date.now();
@@ -134,7 +101,6 @@ function WelforaApp() {
       setAuthSession(session);
       setPendingSession(null);
       setPersonalizing(false);
-      setPage('Dashboard');
       navigate('/');
     }, duration);
 
@@ -143,14 +109,6 @@ function WelforaApp() {
       window.clearTimeout(finishTimer);
     };
   }, [personalizing, pendingSession, navigate, setAuthSession]);
-
-  function handleLogout() {
-    const confirmLogout = window.confirm('Are you sure you want to log out?');
-    if (confirmLogout) {
-      localStorage.removeItem('welfora-demo-session');
-      window.location.href = window.location.pathname;
-    }
-  }
 
   // Personalizing screen
   if (personalizing) {
@@ -178,61 +136,41 @@ function WelforaApp() {
     );
   }
 
-  // Auth screen
-  if (!authSession) {
-    return <AuthScreen onComplete={handleAuthComplete} />;
-  }
-
-  const isDashboard = page === 'Dashboard' || page === 'Home';
-
   return (
-    <div className={`wf ${dark ? 'dark' : 'light'}`}>
-      <a className="skip-link" href="#main-content">
-        Skip to main content
-      </a>
+    // Routes: Matches current URL pathname to child Route definitions
+    <Routes>
+      {/* Public route: Authentication */}
+      <Route
+        path="/login"
+        element={
+          authSession ? (
+            <Navigate to="/" replace />
+          ) : (
+            <AuthScreen onComplete={handleAuthComplete} />
+          )
+        }
+      />
 
-      <Sidebar page={page} go={go} onLogout={handleLogout} />
-
-      <main className="main" id="main-content" tabIndex={-1}>
-        <Topbar page={page} go={go} />
-
-        {/* Active Page View */}
-        {isDashboard ? (
-          <Dashboard go={go} />
-        ) : (
-          <PageViews page={page} go={go} />
-        )}
-
-        <footer className="main-footer">
-          <span>WELFORA © 2026</span>
-          <span>
-            Making public welfare transparent, accessible, and dignified for every citizen. <b>✦</b>
-          </span>
-          <span>Citizen Welfare Navigator</span>
-        </footer>
-      </main>
-
-      {/* Scheme Detail Modal (global) */}
-      {selectedScheme && (
-        <SchemeModal
-          scheme={selectedScheme}
-          onClose={() => setSelectedScheme(null)}
-          isSaved={saved.includes(selectedScheme.id)}
-          onToggleSave={toggleSave}
-          onApply={applyScheme}
-        />
-      )}
-
-      {/* Toast Notification */}
-      {toast && (
-        <div
-          className={`toast toast-${toastType || 'success'}`}
-          role="status"
-          aria-live="polite"
-        >
-          {toastType === 'error' ? '⚠' : toastType === 'info' ? 'ℹ' : '✓'} {toast}
-        </div>
-      )}
-    </div>
+      {/* Protected Routes guarded by ProtectedRoute and wrapped with shared Layout */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/explore" element={<ExplorePage isRecommended={false} />} />
+          <Route path="/recommended" element={<ExplorePage isRecommended={true} />} />
+          <Route path="/find-schemes" element={<FindSchemesPage />} />
+          <Route path="/saved" element={<SavedSchemesPage />} />
+          <Route path="/deadlines" element={<DeadlinesPage />} />
+          <Route path="/chatbot" element={<AssistantPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/settings" element={<ProfileSettingsPage title="Settings" />} />
+          <Route path="/eligibility" element={<EligibilityPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/scheme/:id" element={<SchemeDetailPage />} />
+          {/* Catch-all 404 Route */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }

@@ -1,3 +1,5 @@
+// Sidebar: Demonstrates <NavLink> with active styling and useNavigate for programmatic logout
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useWelfora } from '../context/WelforaContext';
 import {
   DashboardIcon,
@@ -17,38 +19,51 @@ import {
 } from './Icons';
 
 const NAV_ITEMS = [
-  ['Dashboard', DashboardIcon],
-  ['Explore Schemes', CompassIcon],
-  ['Find My Schemes', TargetFinderIcon],
-  ['Recommended', SparklesIcon],
-  ['Saved Schemes', BookmarkIcon],
-  ['Deadlines', ClockIcon],
-  ['AI Assistant', BotIcon],
-  ['Notifications', BellIcon],
-  ['Profile', UserIcon],
-  ['Settings', SettingsIcon],
+  ['Dashboard', DashboardIcon, '/'],
+  ['Explore Schemes', CompassIcon, '/explore'],
+  ['Find My Schemes', TargetFinderIcon, '/find-schemes'],
+  ['Recommended', SparklesIcon, '/recommended'],
+  ['Saved Schemes', BookmarkIcon, '/saved'],
+  ['Deadlines', ClockIcon, '/deadlines'],
+  ['AI Assistant', BotIcon, '/chatbot'],
+  ['Notifications', BellIcon, '/notifications'],
+  ['Profile', UserIcon, '/profile'],
+  ['Settings', SettingsIcon, '/settings'],
 ];
 
-export default function Sidebar({ page, go, onLogout }) {
-  const { dark, setDark, profileName, visibleNotifications } = useWelfora();
+export default function Sidebar() {
+  const { dark, setDark, profileName, visibleNotifications, setAuthSession } = useWelfora();
+  // useNavigate: React Router programmatic redirection
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    const confirmLogout = window.confirm('Are you sure you want to log out?');
+    if (confirmLogout) {
+      localStorage.removeItem('welfora-demo-session');
+      setAuthSession(null);
+      navigate('/login');
+    }
+  }
 
   return (
     <aside className="sidebar">
-      <button className="brand" onClick={() => go('Dashboard')}>
+      {/* Link: Client-side navigation without page reload */}
+      <Link to="/" className="brand">
         <span className="brand-mark">W</span>
         <span>
           <b>WELFORA</b>
           <small>Your Gateway to Government Benefits</small>
         </span>
-      </button>
+      </Link>
 
       <div className="side-nav">
-        {NAV_ITEMS.map(([label, IconComponent]) => (
-          <button
+        {NAV_ITEMS.map(([label, IconComponent, path]) => (
+          // NavLink: Automatically applies active class when matching current route
+          <NavLink
             key={label}
-            className={`nav-link ${page === label ? 'active' : ''}`}
-            aria-current={page === label ? 'page' : undefined}
-            onClick={() => go(label)}
+            to={path}
+            end={path === '/'}
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
           >
             <span className="nav-ico">
               <IconComponent size={16} />
@@ -57,7 +72,7 @@ export default function Sidebar({ page, go, onLogout }) {
             {label === 'Notifications' && visibleNotifications.length > 0 && (
               <i className="nav-badge">{visibleNotifications.length}</i>
             )}
-          </button>
+          </NavLink>
         ))}
       </div>
 
@@ -85,17 +100,17 @@ export default function Sidebar({ page, go, onLogout }) {
             <b>{profileName}</b>
             <small>Your journey starts here</small>
           </span>
-          <button
+          <Link
+            to="/profile"
             className="dots"
-            onClick={() => go('Profile')}
             title="Profile & account options"
             aria-label="Profile & account options"
           >
             <MoreVerticalIcon size={16} />
-          </button>
+          </Link>
         </div>
 
-        <button className="logout-btn" onClick={onLogout} aria-label="Log Out">
+        <button className="logout-btn" onClick={handleLogout} aria-label="Log Out">
           <span style={{ display: 'inline-flex', alignItems: 'center' }}>
             <LogOutIcon size={15} />
           </span>

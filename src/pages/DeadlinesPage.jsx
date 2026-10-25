@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import Empty from '../components/Empty';
 import { SearchIcon, BellIcon } from '../components/Icons';
@@ -50,6 +51,8 @@ function parseCalendarParts(deadlineStr, parsedDate) {
 }
 
 export default function DeadlinesPage({ go }) {
+  // useNavigate: route to catalog when empty or exploring
+  const navigate = useNavigate();
   const {
     schemes,
     deadlineItems,
@@ -306,7 +309,7 @@ export default function DeadlinesPage({ go }) {
           title="No deadlines matching criteria"
           text="No explicitly dated schemes matched your search or category filter. Try clearing your filters or explore all schemes in the catalog."
           action="Explore all schemes"
-          onAction={() => go('Explore Schemes')}
+          onAction={() => navigate('/explore')}
         />
       )}
 
@@ -326,7 +329,7 @@ export default function DeadlinesPage({ go }) {
             </div>
             <button
               className="btn-details"
-              onClick={() => go('Explore Schemes')}
+              onClick={() => navigate('/explore')}
             >
               Explore All Directory →
             </button>

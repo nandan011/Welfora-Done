@@ -1,6 +1,8 @@
+// SchemeCard: Demonstrates <Link> to dynamic routes (/scheme/:id) for shareable URLs
+import { Link } from 'react-router-dom';
 import { HeartIcon, ClockIcon } from './Icons';
 
-export default function SchemeCard({ scheme, saved, onSave, onOpen, onApply }) {
+export default function SchemeCard({ scheme, saved, onSave, onOpen }) {
   const fitScore = scheme.fit?.score ?? scheme.match;
 
   return (
@@ -19,7 +21,9 @@ export default function SchemeCard({ scheme, saved, onSave, onOpen, onApply }) {
       </div>
 
       <span className="category-tag">{scheme.category}</span>
-      <h3>{scheme.name}</h3>
+      <Link to={`/scheme/${scheme.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <h3>{scheme.name}</h3>
+      </Link>
       <p>{scheme.description}</p>
 
       <div className="scheme-card-foot">
@@ -30,12 +34,15 @@ export default function SchemeCard({ scheme, saved, onSave, onOpen, onApply }) {
       </div>
 
       <div className="scheme-card-actions">
-        <button className="outline-btn" onClick={onOpen}>
-          Details
-        </button>
-        <button className="primary-btn" onClick={onOpen}>
+        {onOpen && (
+          <button className="outline-btn" onClick={onOpen}>
+            Details
+          </button>
+        )}
+        {/* Link: Shareable URL navigation using React Router */}
+        <Link to={`/scheme/${scheme.id}`} className="primary-btn">
           View Full Details
-        </button>
+        </Link>
       </div>
     </article>
   );

@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import { SettingsIcon, SunIcon, MoonIcon, CompassIcon } from '../components/Icons';
 import { useWelfora } from '../context/WelforaContext';
 import './ProfilePage.css';
 
 export default function ProfilePage({ go }) {
+  // useNavigate: route between Profile and Settings / Explore
+  const navigate = useNavigate();
   const {
     profileName,
     authSession,
@@ -126,7 +129,7 @@ export default function ProfilePage({ go }) {
         <div className="profile-hero-actions">
           <button
             className="primary-btn small"
-            onClick={() => go('Explore Schemes')}
+            onClick={() => navigate('/explore')}
           >
             <span>Explore My Schemes</span>
             <span>→</span>
@@ -702,11 +705,11 @@ export default function ProfilePage({ go }) {
 
       {/* Navigation Footer */}
       <div className="profile-page-footer">
-        <button className="outline-btn" onClick={() => go('Settings')}>
+        <button className="outline-btn" onClick={() => navigate('/settings')}>
           <SettingsIcon size={15} />
           <span>Advanced Account Settings</span>
         </button>
-        <button className="primary-btn" onClick={() => go('Explore Schemes')}>
+        <button className="primary-btn" onClick={() => navigate('/explore')}>
           <CompassIcon size={16} />
           <span>Explore Eligible Schemes →</span>
         </button>

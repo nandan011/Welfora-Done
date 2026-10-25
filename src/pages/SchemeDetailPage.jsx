@@ -1,21 +1,39 @@
+// SchemeDetailPage: Demonstrates dynamic routing with useParams (:id) and programmatic back navigation
 import { useState } from 'react';
-import PageTitle from '../components/PageTitle';
+import { useParams, useNavigate } from 'react-router-dom';
 import EligibilityModal from '../components/EligibilityModal';
 import { useWelfora } from '../context/WelforaContext';
 
 const TABS = ['Overview', 'Eligibility', 'Documents', 'How to Apply'];
 
-export default function SchemeDetailPage({ scheme, onBack }) {
-  const { saved, toggleSave, applyScheme, eligibility, profileName } = useWelfora();
+export default function SchemeDetailPage({ scheme: propScheme, onBack }) {
+  // useParams: reads :id from URL dynamic route /scheme/:id
+  const { id } = useParams();
+  // useNavigate: programmatic back navigation
+  const navigate = useNavigate();
+  const { schemes, assessedSchemes, saved, toggleSave, eligibility, profileName } = useWelfora();
+
+  const allSchemesList = assessedSchemes && assessedSchemes.length > 0 ? assessedSchemes : (schemes || []);
+  const scheme = propScheme || allSchemesList.find(s => String(s.id) === String(id));
+
   const [activeTab, setActiveTab] = useState('Overview');
   const [showEligibilityModal, setShowEligibilityModal] = useState(false);
+
+  const handleBack = onBack || (() => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/explore');
+    }
+  });
 
   if (!scheme) {
     return (
       <section className="page-content">
         <div className="empty-state">
-          <p>No scheme selected. Please go back and select a scheme.</p>
-          <button className="outline-btn" onClick={onBack}>← Go Back</button>
+          <h2>Scheme Not Found</h2>
+          <p>We couldn't find a scheme matching this ID. Please explore available schemes.</p>
+          <button className="outline-btn" onClick={() => navigate('/explore')}>← Back to Schemes</button>
         </div>
       </section>
     );
@@ -27,7 +45,7 @@ export default function SchemeDetailPage({ scheme, onBack }) {
   return (
     <section className="page-content scheme-detail-page">
       {/* Back button */}
-      <button className="back-link" onClick={onBack}>
+      <button className="back-link" onClick={handleBack}>
         ← Back to schemes
       </button>
 
