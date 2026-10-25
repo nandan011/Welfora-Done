@@ -5,7 +5,7 @@ import { SettingsIcon, SunIcon, MoonIcon, CompassIcon } from '../components/Icon
 import { useWelfora } from '../context/WelforaContext';
 import './ProfilePage.css';
 
-export default function ProfilePage({ go }) {
+export default function ProfilePage() {
   // useNavigate: route between Profile and Settings / Explore
   const navigate = useNavigate();
   const {

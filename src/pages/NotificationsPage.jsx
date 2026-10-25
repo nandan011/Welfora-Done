@@ -7,7 +7,6 @@ import './NotificationsPage.css';
 
 export default function NotificationsPage() {
   const {
-    notifications,
     visibleNotifications,
     reminderPreferences,
     setReminderPreferences,
@@ -17,7 +16,6 @@ export default function NotificationsPage() {
   } = useWelfora();
 
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'deadline' | 'general'
-  const [searchQuery, setSearchQuery] = useState('');
 
   // Counts for tabs
   const deadlineCount = useMemo(
@@ -29,19 +27,12 @@ export default function NotificationsPage() {
     [visibleNotifications]
   );
 
-  // Filtered notifications
+  // Filtered notifications based on active tab
   const displayedNotifications = useMemo(() => {
     return visibleNotifications.filter(item => {
-      const matchesTab = activeTab === 'all' || item.kind === activeTab;
-      const matchesSearch =
-        !searchQuery ||
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (item.time && item.time.toLowerCase().includes(searchQuery.toLowerCase()));
-
-      return matchesTab && matchesSearch;
+      return activeTab === 'all' || item.kind === activeTab;
     });
-  }, [visibleNotifications, activeTab, searchQuery]);
+  }, [visibleNotifications, activeTab]);
 
   return (
     <section className="page-content notifications-page">

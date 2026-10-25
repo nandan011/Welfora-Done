@@ -4,6 +4,9 @@ import SchemeCard from '../components/SchemeCard';
 import Empty from '../components/Empty';
 import { useWelfora } from '../context/WelforaContext';
 import { ALL_INDIAN_STATES } from '../services/schemeService';
+// Reusable form inputs and validation hook (Syllabus: Form handling in React)
+import { TextInput, SelectInput, NumberInput } from '../components/form';
+import { useForm } from '../hooks/useForm';
 
 const OCCUPATION_OPTIONS = [
   'Student',
@@ -39,16 +42,32 @@ const initialForm = {
   category: 'All',
 };
 
-const initialErrors = {
-  name: '',
-  age: '',
-  state: '',
-  occupation: '',
-  income: '',
-};
+// Declarative validation schema
+function validateProfileForm(form) {
+  const errs = {};
+  if (!form.name?.trim()) {
+    errs.name = 'Name is required.';
+  }
+  const age = Number(form.age);
+  if (!form.age || isNaN(age) || age < 1 || age > 120) {
+    errs.age = 'Please enter a valid age (1–120).';
+  }
+  if (!form.state) {
+    errs.state = 'Please select your state.';
+  }
+  if (!form.occupation) {
+    errs.occupation = 'Please select your occupation.';
+  }
+  const income = Number(form.income);
+  if (form.income !== '' && form.income !== undefined && (isNaN(income) || income < 0)) {
+    errs.income = 'Please enter a valid annual income (or leave blank).';
+  }
+  return errs;
+}
 
 export default function FindSchemesPage() {
   const {
+    findProfile,
     setFindProfile,
     findResults,
     findResultsReady,
@@ -59,61 +78,27 @@ export default function FindSchemesPage() {
     notify,
   } = useWelfora();
 
-  const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState(initialErrors);
   const [submitted, setSubmitted] = useState(false);
 
-  function update(field, value) {
-    setForm(prev => ({ ...prev, [field]: value }));
-    setErrors(prev => ({ ...prev, [field]: '' }));
-  }
+  // useForm: Standardized form handling with validation strategy
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    resetForm,
+  } = useForm(initialForm, validateProfileForm);
 
-  function validate() {
-    const errs = { ...initialErrors };
-    let valid = true;
-
-    if (!form.name.trim()) {
-      errs.name = 'Name is required.';
-      valid = false;
-    }
-
-    const age = Number(form.age);
-    if (!form.age || isNaN(age) || age < 1 || age > 120) {
-      errs.age = 'Please enter a valid age (1–120).';
-      valid = false;
-    }
-
-    if (!form.state) {
-      errs.state = 'Please select your state.';
-      valid = false;
-    }
-
-    if (!form.occupation) {
-      errs.occupation = 'Please select your occupation.';
-      valid = false;
-    }
-
-    const income = Number(form.income);
-    if (form.income !== '' && (isNaN(income) || income < 0)) {
-      errs.income = 'Please enter a valid annual income (or leave blank).';
-      valid = false;
-    }
-
-    setErrors(errs);
-    return valid;
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (!validate()) return;
-
+  function onValidSubmit(formValues) {
     const profile = {
-      name: form.name.trim(),
-      age: Number(form.age),
-      state: form.state,
-      occupation: form.occupation,
-      income: form.income ? Number(form.income) : null,
-      category: form.category,
+      name: formValues.name.trim(),
+      age: Number(formValues.age),
+      state: formValues.state,
+      occupation: formValues.occupation,
+      income: formValues.income ? Number(formValues.income) : null,
+      category: formValues.category,
     };
 
     setFindProfile(profile);
@@ -127,8 +112,7 @@ export default function FindSchemesPage() {
   }
 
   function handleReset() {
-    setForm(initialForm);
-    setErrors(initialErrors);
+    resetForm(initialForm);
     setFindProfile(null);
     setSubmitted(false);
   }
@@ -152,98 +136,85 @@ export default function FindSchemesPage() {
             </div>
           </div>
 
-          <form className="find-form" onSubmit={handleSubmit} noValidate>
-            {/* Name */}
-            <div className={`find-field ${errors.name ? 'has-error' : ''}`}>
-              <label htmlFor="fs-name">Full Name <span className="req">*</span></label>
-              <input
-                id="fs-name"
-                type="text"
-                value={form.name}
-                onChange={e => update('name', e.target.value)}
-                placeholder="Enter your full name"
-                autoComplete="name"
-              />
-              {errors.name && <span className="field-error">{errors.name}</span>}
-            </div>
+          <form className="find-form" onSubmit={handleSubmit(onValidSubmit)} noValidate>
+            {/* Full Name Reusable Component */}
+            <TextInput
+              label="Full Name"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.name && errors.name}
+              placeholder="Enter your full name"
+              autoComplete="name"
+              required
+            />
 
             <div className="find-two-col">
-              {/* Age */}
-              <div className={`find-field ${errors.age ? 'has-error' : ''}`}>
-                <label htmlFor="fs-age">Age <span className="req">*</span></label>
-                <input
-                  id="fs-age"
-                  type="number"
-                  min="1"
-                  max="120"
-                  value={form.age}
-                  onChange={e => update('age', e.target.value)}
-                  placeholder="e.g. 22"
-                />
-                {errors.age && <span className="field-error">{errors.age}</span>}
-              </div>
-
-              {/* Category */}
-              <div className="find-field">
-                <label htmlFor="fs-category">Category of Interest</label>
-                <select
-                  id="fs-category"
-                  value={form.category}
-                  onChange={e => update('category', e.target.value)}
-                >
-                  {CATEGORY_OPTIONS.map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* State */}
-            <div className={`find-field ${errors.state ? 'has-error' : ''}`}>
-              <label htmlFor="fs-state">State / UT <span className="req">*</span></label>
-              <select
-                id="fs-state"
-                value={form.state}
-                onChange={e => update('state', e.target.value)}
-              >
-                <option value="">Select your state…</option>
-                {ALL_INDIAN_STATES.filter(s => s !== 'All States').map(s => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
-              {errors.state && <span className="field-error">{errors.state}</span>}
-            </div>
-
-            {/* Occupation */}
-            <div className={`find-field ${errors.occupation ? 'has-error' : ''}`}>
-              <label htmlFor="fs-occupation">Occupation <span className="req">*</span></label>
-              <select
-                id="fs-occupation"
-                value={form.occupation}
-                onChange={e => update('occupation', e.target.value)}
-              >
-                <option value="">Select your occupation…</option>
-                {OCCUPATION_OPTIONS.map(o => (
-                  <option key={o} value={o}>{o}</option>
-                ))}
-              </select>
-              {errors.occupation && <span className="field-error">{errors.occupation}</span>}
-            </div>
-
-            {/* Annual Income */}
-            <div className={`find-field ${errors.income ? 'has-error' : ''}`}>
-              <label htmlFor="fs-income">Annual Household Income (₹) <span className="optional">optional</span></label>
-              <input
-                id="fs-income"
-                type="number"
-                min="0"
-                value={form.income}
-                onChange={e => update('income', e.target.value)}
-                placeholder="e.g. 250000"
+              {/* Age Reusable Component */}
+              <NumberInput
+                label="Age"
+                name="age"
+                min={1}
+                max={120}
+                value={values.age}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.age && errors.age}
+                placeholder="e.g. 22"
+                required
               />
-              {errors.income && <span className="field-error">{errors.income}</span>}
-              <small className="field-hint">Used to filter income-specific schemes. Leave blank to see all.</small>
+
+              {/* Category Reusable Component */}
+              <SelectInput
+                label="Category of Interest"
+                name="category"
+                value={values.category}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                options={CATEGORY_OPTIONS}
+              />
             </div>
+
+            {/* State Reusable Component */}
+            <SelectInput
+              label="State / UT"
+              name="state"
+              value={values.state}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              options={ALL_INDIAN_STATES.filter(s => s !== 'All States')}
+              error={touched.state && errors.state}
+              placeholder="Select your state…"
+              required
+            />
+
+            {/* Occupation Reusable Component */}
+            <SelectInput
+              label="Occupation"
+              name="occupation"
+              value={values.occupation}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              options={OCCUPATION_OPTIONS}
+              error={touched.occupation && errors.occupation}
+              placeholder="Select your occupation…"
+              required
+            />
+
+            {/* Annual Income Reusable Component */}
+            <NumberInput
+              label="Annual Household Income"
+              name="income"
+              prefix="₹"
+              min={0}
+              value={values.income}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.income && errors.income}
+              placeholder="e.g. 250000"
+              helperText="Optional: used to filter income-capped schemes. Leave blank to see all."
+            />
 
             <div className="find-form-actions">
               <button type="submit" className="primary-btn find-submit-btn">
@@ -270,7 +241,7 @@ export default function FindSchemesPage() {
               <div>
                 <h2>Recommended Schemes For You</h2>
                 <p>
-                  Based on your profile — {form.name || 'Citizen'}, {form.age} years, {form.state}, {form.occupation}.
+                  Based on your profile — {findProfile?.name || values.name || 'Citizen'}, {findProfile?.age || values.age} years, {findProfile?.state || values.state}, {findProfile?.occupation || values.occupation}.
                 </p>
               </div>
               <span className="result-badge">{findResults?.length || 0} schemes</span>

@@ -16,7 +16,7 @@ const OCCUPATION_OPTIONS = [
   'Other',
 ];
 
-export default function EligibilityPage({ go }) {
+export default function EligibilityPage() {
   // useNavigate: route to detailed profile questionnaire
   const navigate = useNavigate();
   const {

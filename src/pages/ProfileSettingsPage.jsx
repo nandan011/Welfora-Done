@@ -3,7 +3,7 @@ import PageTitle from '../components/PageTitle';
 import { SunIcon, MoonIcon } from '../components/Icons';
 import { useWelfora } from '../context/WelforaContext';
 
-export default function ProfileSettingsPage({ title = 'Profile', go }) {
+export default function ProfileSettingsPage({ title = 'Profile' }) {
   // useNavigate: programmatically navigate to sub-pages
   const navigate = useNavigate();
   const {
@@ -12,7 +12,6 @@ export default function ProfileSettingsPage({ title = 'Profile', go }) {
     dark,
     setDark,
     saved,
-    applied,
     loadScenario,
     simulateApiError,
   } = useWelfora();

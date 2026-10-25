@@ -77,6 +77,7 @@ export default function SchemeModal({ scheme, onClose, isSaved, onToggleSave, on
           <button
             className="primary-btn"
             onClick={() => {
+              if (onApply) onApply(scheme.id);
               const url = scheme.applicationLink || 'https://www.myscheme.gov.in';
               window.open(url, '_blank', 'noopener,noreferrer');
             }}

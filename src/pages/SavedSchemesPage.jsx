@@ -3,13 +3,19 @@ import PageTitle from '../components/PageTitle';
 import SchemeCard from '../components/SchemeCard';
 import Empty from '../components/Empty';
 import { useWelfora } from '../context/WelforaContext';
+// Zustand Store: Direct selector-based subscription demonstrating fine-grained reactivity
+import { useWelforaStore } from '../store/useWelforaStore';
 
-export default function SavedSchemesPage({ go }) {
+export default function SavedSchemesPage() {
   // useNavigate: programmatically route to explore catalog
   const navigate = useNavigate();
+
+  // Zustand selector: Only re-renders this component when 'saved' array changes
+  const saved = useWelforaStore(state => state.saved);
+
+  // Facade hook providing actions and derived catalog
   const {
     schemes,
-    saved,
     toggleSave,
     applyScheme,
     setSelectedScheme,

@@ -38,14 +38,13 @@ const HOW_IT_WORKS = [
   },
 ];
 
-export default function Dashboard({ go }) {
+export default function Dashboard() {
   // useNavigate: React Router hook for programmatic navigation
   const navigate = useNavigate();
   const {
     schemes,
     assessedSchemes,
     saved,
-    applied,
     profileName,
     deadlineItems,
     reminderPreferences,

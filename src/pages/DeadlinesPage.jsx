@@ -50,7 +50,7 @@ function parseCalendarParts(deadlineStr, parsedDate) {
   };
 }
 
-export default function DeadlinesPage({ go }) {
+export default function DeadlinesPage() {
   // useNavigate: route to catalog when empty or exploring
   const navigate = useNavigate();
   const {

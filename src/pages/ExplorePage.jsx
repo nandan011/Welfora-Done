@@ -56,7 +56,6 @@ export default function ExplorePage({
   const [fitFilter, setFitFilter] = useState('all');
   const [sortBy, setSortBy] = useState('recommended');
   const [currentPage, setCurrentPage] = useState(1);
-  const [detailScheme, setDetailScheme] = useState(null);
   const pageSize = 9;
 
   const userInterests = authSession?.profile?.interests || [];
@@ -99,7 +98,7 @@ export default function ExplorePage({
   const paginatedSchemes = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   useEffect(() => {
-    setCurrentPage(1);
+    Promise.resolve().then(() => setCurrentPage(1));
   }, [debouncedQuery, exploreCategory, exploreState, fitFilter, sortBy]);
 
   function resetFilters() {
@@ -108,16 +107,6 @@ export default function ExplorePage({
     setExploreState('All states');
     setFitFilter('all');
     setSortBy('recommended');
-  }
-
-  // If a detail scheme is selected via "View Details", show detail page
-  if (detailScheme) {
-    return (
-      <SchemeDetailPage
-        scheme={detailScheme}
-        onBack={() => setDetailScheme(null)}
-      />
-    );
   }
 
   return (
@@ -227,9 +216,7 @@ export default function ExplorePage({
             scheme={scheme}
             saved={saved.includes(scheme.id)}
             onSave={() => toggleSave(scheme.id)}
-            onOpen={() => {
-              setDetailScheme(scheme);
-            }}
+            onOpen={() => setSelectedScheme(scheme)}
             onApply={() => applyScheme(scheme.id)}
           />
         ))}
