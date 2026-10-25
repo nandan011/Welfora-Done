@@ -96,7 +96,9 @@ function WelforaRoutes() {
       };
       try {
         localStorage.setItem('welfora-demo-session', JSON.stringify(session));
-      } catch {}
+      } catch (err) {
+        console.warn('Failed to save session to localStorage:', err);
+      }
 
       setAuthSession(session);
       setPendingSession(null);
@@ -104,6 +106,7 @@ function WelforaRoutes() {
       navigate('/');
     }, duration);
 
+    // useEffect cleanup: Clears active intervals and timeouts when unmounting
     return () => {
       window.clearInterval(progressTimer);
       window.clearTimeout(finishTimer);

@@ -1,5 +1,14 @@
 import { useState } from 'react';
 import './AuthScreen.css';
+import { InputField, PasswordField, SelectField } from './forms';
+import {
+    required,
+    isEmail,
+    minLength,
+    isStrongPassword,
+    isAgeValid,
+    matches,
+} from '../utils/validators';
 
 const interestsList = [
     'Scholarships & Education',
@@ -12,6 +21,46 @@ const interestsList = [
     'General Financial Assistance',
 ];
 
+const statesList = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar',
+    'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
+    'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
+    'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya',
+    'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan',
+    'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+    'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+    'Andaman and Nicobar Islands', 'Chandigarh',
+    'Dadra and Nagar Haveli and Daman and Diu', 'Delhi',
+    'Jammu and Kashmir', 'Ladakh', 'Lakshadweep',
+    'Puducherry',
+];
+
+const occupationsList = [
+    'Student',
+    'Employed',
+    'Farmer',
+    'Self-employed/business',
+    'Unemployed',
+    'Other',
+];
+
+const incomeList = [
+    'Below ₹1 lakh',
+    '₹1–2.5 lakh',
+    '₹2.5–5 lakh',
+    '₹5–10 lakh',
+    'Above ₹10 lakh',
+    'Prefer not to say',
+];
+
+const educationList = [
+    'School',
+    'Undergraduate',
+    'Postgraduate',
+    'PhD / Research',
+    'Other',
+];
+
 const initialForm = {
     name: '',
     age: '',
@@ -22,16 +71,74 @@ const initialForm = {
     interests: ['Scholarships & Education'],
     email: '',
     password: '',
+    confirmPassword: '',
 };
+
+function validateForm(data, currentMode) {
+    const errs = {};
+    if (currentMode === 'signup') {
+        const nameErr = required(data.name, 'Full name') || minLength(data.name, 2, 'Full name');
+        if (nameErr) errs.name = nameErr;
+
+        const ageErr = isAgeValid(data.age);
+        if (ageErr) errs.age = ageErr;
+
+        const stateErr = required(data.state, 'State');
+        if (stateErr) errs.state = stateErr;
+
+        if (!data.interests || data.interests.length === 0) {
+            errs.interests = 'Choose at least one benefit area.';
+        }
+
+        const emailErr = required(data.email, 'Email address') || isEmail(data.email);
+        if (emailErr) errs.email = emailErr;
+
+        const passErr = required(data.password, 'Password') || isStrongPassword(data.password);
+        if (passErr) errs.password = passErr;
+
+        const confirmErr = required(data.confirmPassword, 'Confirm password') || matches(data.confirmPassword, data.password, 'Passwords do not match.');
+        if (confirmErr) errs.confirmPassword = confirmErr;
+    } else {
+        const emailErr = required(data.email, 'Email address') || isEmail(data.email);
+        if (emailErr) errs.email = emailErr;
+
+        const passErr = required(data.password, 'Password');
+        if (passErr) errs.password = passErr;
+    }
+    return errs;
+}
 
 export default function AuthScreen({ onComplete }) {
     const [mode, setMode] = useState('signup');
+    // Controlled component: React state drives all input field values
     const [form, setForm] = useState(initialForm);
-    const [error, setError] = useState('');
+    const [accountError, setAccountError] = useState('');
+    // Validation strategy: field-level touch tracking and error evaluation
+    const [touched, setTouched] = useState({});
+    const [submitAttempted, setSubmitAttempted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const errors = validateForm(form, mode);
+
+    const switchMode = (newMode) => {
+        setMode(newMode);
+        setAccountError('');
+        setTouched({});
+        setSubmitAttempted(false);
+        setIsSubmitting(false);
+    };
 
     const update = (field, value) => {
         setForm(prev => ({ ...prev, [field]: value }));
-        setError('');
+        setAccountError('');
+    };
+
+    const handleBlur = (field) => {
+        setTouched(prev => ({ ...prev, [field]: true }));
+    };
+
+    const getFieldError = (field) => {
+        return (touched[field] || submitAttempted) ? (errors[field] || '') : '';
     };
 
     const toggleInterest = interest => {
@@ -41,33 +148,36 @@ export default function AuthScreen({ onComplete }) {
                 ? prev.interests.filter(item => item !== interest)
                 : [...prev.interests, interest],
         }));
+        handleBlur('interests');
     };
 
     function submit(event) {
         event.preventDefault();
-        setError('');
+        setSubmitAttempted(true);
+        setAccountError('');
+        setIsSubmitting(true);
 
-        if (!form.email.trim() || !form.password.trim()) {
-            setError('Enter your email and password.');
+        const allTouched = Object.keys(form).reduce((acc, k) => {
+            acc[k] = true;
+            return acc;
+        }, {});
+        allTouched.interests = true;
+        setTouched(allTouched);
+
+        const currentErrors = validateForm(form, mode);
+        if (Object.keys(currentErrors).length > 0) {
+            setIsSubmitting(false);
+            const firstErrorKey = Object.keys(currentErrors)[0];
+            const el = document.getElementById(`field-${firstErrorKey}`) ||
+                       document.querySelector(`[name="${firstErrorKey}"]`) ||
+                       (firstErrorKey === 'interests' ? document.querySelector('.interest-option input') : null);
+            if (el && typeof el.focus === 'function') {
+                el.focus();
+            }
             return;
         }
 
         if (mode === 'signup') {
-            if (!form.name.trim() || !form.age || !form.state) {
-                setError('Please complete your name, age and state.');
-                return;
-            }
-
-            if (Number(form.age) < 1 || Number(form.age) > 120) {
-                setError('Enter a valid age.');
-                return;
-            }
-
-            if (form.interests.length === 0) {
-                setError('Choose at least one benefit area.');
-                return;
-            }
-
             const account = {
                 name: form.name.trim(),
                 email: form.email.trim().toLowerCase(),
@@ -83,18 +193,29 @@ export default function AuthScreen({ onComplete }) {
             };
 
             // Prototype only: localStorage is not secure account storage.
-            const accounts = JSON.parse(
-                localStorage.getItem('welfora-demo-accounts') || '{}'
-            );
+            let accounts = {};
+            try {
+                accounts = JSON.parse(
+                    localStorage.getItem('welfora-demo-accounts') || '{}'
+                );
+            } catch (err) {
+                console.warn('Failed to parse accounts from localStorage:', err);
+            }
 
             if (accounts[account.email]) {
-                setError('An account with this email already exists. Try logging in.');
+                setAccountError('An account with this email already exists. Try logging in.');
+                setIsSubmitting(false);
                 return;
             }
 
             accounts[account.email] = account;
-            localStorage.setItem('welfora-demo-accounts', JSON.stringify(accounts));
+            try {
+                localStorage.setItem('welfora-demo-accounts', JSON.stringify(accounts));
+            } catch (err) {
+                console.warn('Failed to save account to localStorage:', err);
+            }
 
+            setIsSubmitting(false);
             onComplete({
                 name: account.name,
                 email: account.email,
@@ -103,16 +224,23 @@ export default function AuthScreen({ onComplete }) {
             return;
         }
 
-        const accounts = JSON.parse(
-            localStorage.getItem('welfora-demo-accounts') || '{}'
-        );
+        let accounts = {};
+        try {
+            accounts = JSON.parse(
+                localStorage.getItem('welfora-demo-accounts') || '{}'
+            );
+        } catch (err) {
+            console.warn('Failed to parse accounts from localStorage:', err);
+        }
         const account = accounts[form.email.trim().toLowerCase()];
 
         if (!account || account.password !== form.password) {
-            setError('Account not found or password incorrect. Try signing up first.');
+            setAccountError('Account not found or password incorrect. Try signing up first.');
+            setIsSubmitting(false);
             return;
         }
 
+        setIsSubmitting(false);
         onComplete({
             name: account.name,
             email: account.email,
@@ -192,136 +320,89 @@ export default function AuthScreen({ onComplete }) {
                         <button
                             type="button"
                             className={mode === 'signup' ? 'selected' : ''}
-                            onClick={() => {
-                                setMode('signup');
-                                setError('');
-                            }}
+                            onClick={() => switchMode('signup')}
                         >
                             Sign Up
                         </button>
                         <button
                             type="button"
                             className={mode === 'login' ? 'selected' : ''}
-                            onClick={() => {
-                                setMode('login');
-                                setError('');
-                            }}
+                            onClick={() => switchMode('login')}
                         >
                             Log In
                         </button>
                     </div>
 
-                    <form className="auth-form" onSubmit={submit}>
+                    <form className="auth-form" onSubmit={submit} noValidate>
                         {mode === 'signup' && (
                             <>
-                                <label>
-                                    Full name
-                                    <input
-                                        value={form.name}
-                                        onChange={e => update('name', e.target.value)}
-                                        placeholder="Enter your full name"
-                                        autoComplete="name"
-                                        required
-                                    />
-                                </label>
+                                <InputField
+                                    label="Full name"
+                                    name="name"
+                                    value={form.name}
+                                    onChange={e => update('name', e.target.value)}
+                                    onBlur={() => handleBlur('name')}
+                                    error={getFieldError('name')}
+                                    placeholder="Enter your full name"
+                                    autoComplete="name"
+                                    required
+                                />
 
                                 <div className="auth-two-col">
-                                    <label>
-                                        Age
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            max="120"
-                                            value={form.age}
-                                            onChange={e => update('age', e.target.value)}
-                                            placeholder="Your age"
-                                            required
-                                        />
-                                    </label>
+                                    <InputField
+                                        label="Age"
+                                        name="age"
+                                        type="number"
+                                        min="1"
+                                        max="120"
+                                        value={form.age}
+                                        onChange={e => update('age', e.target.value)}
+                                        onBlur={() => handleBlur('age')}
+                                        error={getFieldError('age')}
+                                        placeholder="Your age"
+                                        required
+                                    />
 
-                                    <label>
-                                        State / UT
-                                        <select
-                                            value={form.state}
-                                            onChange={e => update('state', e.target.value)}
-                                        >
-                                            {[
-                                                'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar',
-                                                'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
-                                                'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-                                                'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya',
-                                                'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan',
-                                                'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-                                                'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
-                                                'Andaman and Nicobar Islands', 'Chandigarh',
-                                                'Dadra and Nagar Haveli and Daman and Diu', 'Delhi',
-                                                'Jammu and Kashmir', 'Ladakh', 'Lakshadweep',
-                                                'Puducherry',
-                                            ].map(state => (
-                                                <option key={state} value={state}>{state}</option>
-                                            ))}
-                                        </select>
-                                    </label>
+                                    <SelectField
+                                        label="State / UT"
+                                        name="state"
+                                        value={form.state}
+                                        onChange={e => update('state', e.target.value)}
+                                        onBlur={() => handleBlur('state')}
+                                        error={getFieldError('state')}
+                                        options={statesList}
+                                    />
                                 </div>
 
                                 <div className="auth-two-col">
-                                    <label>
-                                        Occupation
-                                        <select
-                                            value={form.occupation}
-                                            onChange={e => update('occupation', e.target.value)}
-                                        >
-                                            {[
-                                                'Student',
-                                                'Employed',
-                                                'Farmer',
-                                                'Self-employed/business',
-                                                'Unemployed',
-                                                'Other',
-                                            ].map(item => (
-                                                <option key={item} value={item}>{item}</option>
-                                            ))}
-                                        </select>
-                                    </label>
+                                    <SelectField
+                                        label="Occupation"
+                                        name="occupation"
+                                        value={form.occupation}
+                                        onChange={e => update('occupation', e.target.value)}
+                                        onBlur={() => handleBlur('occupation')}
+                                        options={occupationsList}
+                                    />
 
-                                    <label>
-                                        Annual household income
-                                        <select
-                                            value={form.income}
-                                            onChange={e => update('income', e.target.value)}
-                                        >
-                                            {[
-                                                'Below ₹1 lakh',
-                                                '₹1–2.5 lakh',
-                                                '₹2.5–5 lakh',
-                                                '₹5–10 lakh',
-                                                'Above ₹10 lakh',
-                                                'Prefer not to say',
-                                            ].map(item => (
-                                                <option key={item} value={item}>{item}</option>
-                                            ))}
-                                        </select>
-                                    </label>
+                                    <SelectField
+                                        label="Annual household income"
+                                        name="income"
+                                        value={form.income}
+                                        onChange={e => update('income', e.target.value)}
+                                        onBlur={() => handleBlur('income')}
+                                        options={incomeList}
+                                    />
                                 </div>
 
                                 {form.occupation === 'Student' && (
-                                    <label>
-                                        Education level
-                                        <select
-                                            value={form.education}
-                                            onChange={e => update('education', e.target.value)}
-                                        >
-                                            {[
-                                                'School',
-                                                'Undergraduate',
-                                                'Postgraduate',
-                                                'PhD / Research',
-                                                'Other',
-                                            ].map(item => (
-                                                <option key={item} value={item}>{item}</option>
-                                            ))}
-                                        </select>
-                                    </label>
+                                    <SelectField
+                                        label="Education level"
+                                        name="education"
+                                        value={form.education}
+                                        onChange={e => update('education', e.target.value)}
+                                        onBlur={() => handleBlur('education')}
+                                        options={educationList}
+                                    />
                                 )}
 
                                 <fieldset className="auth-interests">
@@ -343,39 +424,60 @@ export default function AuthScreen({ onComplete }) {
                                             </label>
                                         ))}
                                     </div>
+                                    {getFieldError('interests') && (
+                                        <span className="field-error" role="alert" style={{ marginTop: '6px' }}>
+                                            {getFieldError('interests')}
+                                        </span>
+                                    )}
                                 </fieldset>
                             </>
                         )}
 
-                        <label>
-                            Email address
-                            <input
-                                type="email"
-                                value={form.email}
-                                onChange={e => update('email', e.target.value)}
-                                placeholder="you@example.com"
-                                autoComplete="email"
+                        <InputField
+                            label="Email address"
+                            name="email"
+                            type="email"
+                            value={form.email}
+                            onChange={e => update('email', e.target.value)}
+                            onBlur={() => handleBlur('email')}
+                            error={getFieldError('email')}
+                            placeholder="you@example.com"
+                            autoComplete="email"
+                            required
+                        />
+
+                        <PasswordField
+                            label="Password"
+                            name="password"
+                            value={form.password}
+                            onChange={e => update('password', e.target.value)}
+                            onBlur={() => handleBlur('password')}
+                            error={getFieldError('password')}
+                            placeholder="Enter your password"
+                            autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                            hint={mode === 'signup' ? 'At least 8 characters with letters & numbers' : undefined}
+                            required
+                        />
+
+                        {mode === 'signup' && (
+                            <PasswordField
+                                label="Confirm password"
+                                name="confirmPassword"
+                                value={form.confirmPassword}
+                                onChange={e => update('confirmPassword', e.target.value)}
+                                onBlur={() => handleBlur('confirmPassword')}
+                                error={getFieldError('confirmPassword')}
+                                placeholder="Confirm your password"
+                                autoComplete="new-password"
                                 required
                             />
-                        </label>
+                        )}
 
-                        <label>
-                            Password
-                            <input
-                                type="password"
-                                value={form.password}
-                                onChange={e => update('password', e.target.value)}
-                                placeholder="Enter your password"
-                                autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                                required
-                            />
-                        </label>
+                        {accountError && <p className="auth-error" role="alert">{accountError}</p>}
 
-                        {error && <p className="auth-error" role="alert">{error}</p>}
-
-                        <button className="auth-submit" type="submit">
-                            {mode === 'signup' ? 'Create account' : 'Log in'}
-                            <span>→</span>
+                        <button className="auth-submit" type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? 'Please wait...' : (mode === 'signup' ? 'Create account' : 'Log in')}
+                            {!isSubmitting && <span>→</span>}
                         </button>
                     </form>
 

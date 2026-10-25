@@ -370,3 +370,119 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Reusable form field wrapper & controls (Task 1) */
+.form-field {
+    display: grid;
+    gap: 7px;
+    color: #34415a;
+    font-size: 13.5px;
+    font-weight: 750;
+}
+
+.form-field > label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.form-field .input-wrap,
+.form-field .select-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    border-radius: 6px;
+    line-height: 1;
+    transition: color 150ms ease, background-color 150ms ease;
+}
+
+.password-toggle-btn:hover {
+    color: #172139;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.password-toggle-btn:focus-visible {
+    outline: 2px solid #159b91;
+    outline-offset: 1px;
+}
+
+.password-field .input-wrap input {
+    padding-right: 42px !important;
+}
+
+/* Field validation error styling */
+.field-error {
+    color: #c03545;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-top: 1px;
+    display: block;
+}
+
+.form-field.has-error input,
+.form-field.has-error select {
+    border-color: #c03545 !important;
+}
+
+.form-field.has-error input:focus,
+.form-field.has-error select:focus {
+    box-shadow: 0 0 0 3px rgba(192, 53, 69, 0.16) !important;
+}
+
+.field-hint {
+    color: #7c8799;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 1px;
+}
+
+.required-star {
+    color: #c03545;
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] .form-field {
+    color: #cbd5e1;
+}
+
+[data-theme='dark'] .password-toggle-btn {
+    color: #94a3b8;
+}
+
+[data-theme='dark'] .password-toggle-btn:hover {
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .field-error {
+    color: #ff6b81;
+}
+
+[data-theme='dark'] .form-field.has-error input,
+[data-theme='dark'] .form-field.has-error select {
+    border-color: #ff6b81 !important;
+}
+
+[data-theme='dark'] .form-field.has-error input:focus,
+[data-theme='dark'] .form-field.has-error select:focus {
+    box-shadow: 0 0 0 3px rgba(255, 107, 129, 0.22) !important;
+}

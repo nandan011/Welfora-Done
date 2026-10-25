@@ -1,6 +1,6 @@
 import { schemes as localSchemes } from '../data/schemes';
 
-// All 28 Indian states + UTs as a shared constant used across the app
+// All 28 Indian states + 8 UTs (total 36) as a shared constant used across the app
 export const ALL_INDIAN_STATES = [
   'All States',
   'Andhra Pradesh',
@@ -31,10 +31,13 @@ export const ALL_INDIAN_STATES = [
   'Uttar Pradesh',
   'Uttarakhand',
   'West Bengal',
+  'Andaman and Nicobar Islands',
+  'Chandigarh',
+  'Dadra and Nagar Haveli and Daman and Diu',
   'Delhi',
   'Jammu and Kashmir',
   'Ladakh',
-  'Chandigarh',
+  'Lakshadweep',
   'Puducherry',
 ];
 

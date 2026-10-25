@@ -2,9 +2,12 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Metric from '../components/Metric';
 import QuickStat from '../components/QuickStat';
+import Empty from '../components/Empty';
 import { SearchIcon } from '../components/Icons';
 import { categories } from '../data/categories';
+import { ALL_INDIAN_STATES } from '../services/schemeService';
 import { formatDaysRemaining } from '../utils/schemeUtils';
+// Context API: Consuming shared state via custom useWelfora hook
 import { useWelfora } from '../context/WelforaContext';
 
 const HOW_IT_WORKS = [
@@ -57,11 +60,17 @@ export default function Dashboard() {
 
   const totalSchemesCount = schemes?.length || 0;
 
+  // useMemo: Memoizes filtered eligible schemes based on assessment fit score
   const eligibleSchemes = useMemo(() => {
     return (assessedSchemes || []).filter(s => (s.fit?.score || 0) >= 55);
   }, [assessedSchemes]);
 
   const eligibleCount = eligibleSchemes.length;
+
+  // Derived metric for states & UTs (excluding 'All States' placeholder)
+  const statesCoveredCount = useMemo(() => {
+    return ALL_INDIAN_STATES.filter(s => s !== 'All States').length;
+  }, []);
 
   const recommended = useMemo(() => {
     if (eligibleSchemes.length > 0) {
@@ -151,7 +160,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Metrics Row */}
+      {/* Metrics Row - Props: Reusable Metric components parameterized via props */}
       <div className="metric-row">
         <Metric
           icon="🏛️"
@@ -168,14 +177,14 @@ export default function Dashboard() {
         <Metric
           icon="📍"
           color="blue"
-          value="28"
+          value={`${statesCoveredCount}`}
           label="States & UTs Covered"
         />
         <Metric
-          icon="🌟"
+          icon="🗂️"
           color="pink"
-          value="98%"
-          label="Citizen Satisfaction"
+          value={`${categories.length}`}
+          label="Scheme Categories"
         />
       </div>
 
@@ -184,7 +193,7 @@ export default function Dashboard() {
         <div className="welcome-title">
           <div>
             <h2>
-              👋 Welcome back, <span>{profileName}!</span>
+              👋 Welcome, <span>{profileName}!</span>
             </h2>
             <p>Here's what's happening today.</p>
           </div>
@@ -198,7 +207,7 @@ export default function Dashboard() {
               placeholder="Search schemes, benefits…"
               style={{ cursor: 'pointer' }}
             />
-            <button onClick={() => navigate('/explore')}>↗</button>
+            <button onClick={() => navigate('/explore')} aria-label="Search and explore schemes">↗</button>
           </label>
         </div>
 
@@ -241,22 +250,36 @@ export default function Dashboard() {
             <h2>Top Recommended for You</h2>
             <button onClick={() => navigate('/recommended')}>View all ↗</button>
           </div>
-          {recommended.map(s => {
-            const matchScore = s.fit?.score || s.match || 75;
-            return (
-              <button className="recommend-row" key={s.id} onClick={() => setSelectedScheme(s)}>
-                <span className={`scheme-symbol ${s.color}`}>{s.icon}</span>
-                <span className="recommend-name">
-                  <b>{s.name}</b>
-                  <i>
-                    <span style={{ width: `${matchScore}%` }} />
-                  </i>
-                </span>
-                <span className="match">{matchScore}% match</span>
-                <span className="row-arrow">›</span>
-              </button>
-            );
-          })}
+          {recommended.length > 0 ? (
+            recommended.map(s => {
+              const matchScore = s.fit?.score || s.match || 75;
+              return (
+                <button
+                  className="recommend-row"
+                  key={s.id}
+                  onClick={() => setSelectedScheme(s)}
+                  aria-label={`View details for ${s.name}`}
+                >
+                  <span className={`scheme-symbol ${s.color}`}>{s.icon}</span>
+                  <span className="recommend-name">
+                    <b>{s.name}</b>
+                    <i>
+                      <span style={{ width: `${matchScore}%` }} />
+                    </i>
+                  </span>
+                  <span className="match">{matchScore}% match</span>
+                  <span className="row-arrow" aria-hidden="true">›</span>
+                </button>
+              );
+            })
+          ) : (
+            <Empty
+              title="No recommendations yet"
+              text="Complete your profile to receive tailored scheme suggestions."
+              action="Find Schemes"
+              onAction={() => navigate('/find-schemes')}
+            />
+          )}
         </div>
 
         <div className="right-stack">
@@ -266,7 +289,12 @@ export default function Dashboard() {
               <button onClick={() => navigate('/deadlines')}>View all ↗</button>
             </div>
             {(reminderPreferences.upcomingDeadlines ? deadlineItems.slice(0, 3) : []).map((s, i) => (
-              <button className="deadline-mini" key={s.id} onClick={() => setSelectedScheme(s)}>
+              <button
+                className="deadline-mini"
+                key={s.id}
+                onClick={() => setSelectedScheme(s)}
+                aria-label={`View deadline for ${s.name}: ${s.deadline}`}
+              >
                 <span className={`tiny-date ${['orange', 'pink', 'blue'][i] || 'blue'}`}>⏱️</span>
                 <b>{s.name}</b>
                 <span>{s.deadline}</span>

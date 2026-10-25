@@ -27,8 +27,8 @@ Create or edit the `.env` (or `.env.local`) file in the **project root directory
 # Google Gemini API Key for Welfora Assistant
 GEMINI_API_KEY=your_actual_gemini_api_key_here
 
-# Optional: Gemini model override (defaults to gemini-2.5-flash)
-GEMINI_MODEL=gemini-2.5-flash
+# Optional: Gemini model override (defaults to gemini-3.5-flash-lite)
+GEMINI_MODEL=gemini-3.5-flash-lite
 ```
 
 > **Security Note**: Never commit your `.env` or `.env.local` files to Git. Both are listed in `.gitignore`. A `.env.example` template is provided for reference.
@@ -92,7 +92,7 @@ npm run start
                  ▼
 ┌─────────────────────────────────┐
 │        Google Gemini API        │
-│       (gemini-2.5-flash)        │
+│    (gemini-3.5-flash-lite)      │
 └─────────────────────────────────┘
 ```
 
@@ -102,3 +102,18 @@ npm run start
 4. **Grounding context**: Curated scheme data from `src/data/schemes.js` and strict guidelines are injected into the Gemini system instruction.
 5. **Gemini SDK** (`@google/genai`) processes the query and returns an accurate, scheme-aware response.
 6. **Frontend UI** displays formatted markdown, handles thinking states, and provides retry mechanisms on network errors.
+
+---
+
+## 📚 Syllabus Topics Covered
+
+| Syllabus Topic | Concepts & Implementation | File Location |
+| :--- | :--- | :--- |
+| **Components & Props** | Parametric reusable UI components passing data, handlers, and visual variants via props | `src/components/Metric.jsx`<br>`src/components/QuickStat.jsx`<br>`src/components/Empty.jsx`<br>`src/components/SchemeCard.jsx` |
+| **State Management** | Local controlled state (`useState`), touch tracking, and centralized global state management | `src/components/AuthScreen.jsx`<br>`src/store/useWelforaStore.js` (Zustand)<br>`src/pages/FindSchemesPage.jsx` |
+| **`useEffect` & Lifecycle** | Side-effect synchronisation, progress interval tracking, and timer cleanup on unmount | `src/App.jsx` (session timer & cleanup)<br>`src/hooks/useAsync.js`<br>`src/context/ThemeContext.jsx` |
+| **Context API** | Scoped global contexts for cross-cutting themes, notifications, and unified facade hook | `src/context/ThemeContext.jsx`<br>`src/context/NotificationContext.jsx`<br>`src/context/WelforaContext.jsx` |
+| **Forms & Validation** | Pure validation functions, `noValidate`, per-field `touched` state, onBlur and submit validation | `src/components/AuthScreen.jsx`<br>`src/utils/validators.js`<br>`src/hooks/useForm.js` |
+| **Reusable Inputs** | Accessible input wrappers, inline SVG password visibility toggle, select boxes, ARIA attributes | `src/components/forms/InputField.jsx`<br>`src/components/forms/PasswordField.jsx`<br>`src/components/forms/SelectField.jsx` |
+| **Async State & Errors** | Asynchronous status machine (`idle`, `pending`, `resolved`, `rejected`), retry banners, and AI error states | `src/hooks/useAsync.js`<br>`src/pages/Dashboard.jsx` (apiLoading & retry)<br>`src/pages/AssistantPage.jsx` |
+
