@@ -50,33 +50,6 @@ function WelforaFacadeInner({ children }) {
   // Derived deadline tracking items
   const deadlineItems = useDeadlineItems(schemes);
 
-  // Find-my-schemes results derived from questionnaire
-  const findSchemeResults = useMemo(() => {
-    if (!store.findProfile) return null;
-    return assessedSchemes.filter(s => {
-      const catMatch =
-        !store.findProfile.category ||
-        store.findProfile.category === 'All' ||
-        s.category.toLowerCase().includes(store.findProfile.category.toLowerCase());
-      const stateMatch =
-        !store.findProfile.state ||
-        store.findProfile.state === 'All States' ||
-        s.state === 'All India' ||
-        s.state === 'State dependent' ||
-        s.state === 'Participating states' ||
-        s.state.toLowerCase().includes(store.findProfile.state.toLowerCase());
-      const occMatch =
-        !store.findProfile.occupation ||
-        assessSchemeFit(s, {
-          ...store.eligibility,
-          occupation: store.findProfile.occupation,
-          income: String(store.findProfile.income || store.eligibility.income),
-          age: String(store.findProfile.age || store.eligibility.age),
-        }).score >= 45;
-      return catMatch && stateMatch && occMatch;
-    }).sort((a, b) => (b.fit?.score || 0) - (a.fit?.score || 0));
-  }, [store.findProfile, assessedSchemes, store.eligibility]);
-
   // Wrapped actions combining Zustand mutation with notification feedback
   const handleToggleSave = useCallback((id) => {
     const isNowSaved = store.toggleSave(id);
@@ -159,10 +132,6 @@ function WelforaFacadeInner({ children }) {
     setExploreCategory: store.setExploreCategory,
     exploreState: store.exploreState,
     setExploreState: store.setExploreState,
-    findProfile: store.findProfile,
-    setFindProfile: store.setFindProfile,
-    findResults: findSchemeResults,
-    findResultsReady: store.findProfile !== null,
 
     // Modal & Toast (from Context & Zustand)
     selectedScheme: store.selectedScheme,

@@ -7,7 +7,6 @@ import Layout from './components/Layout';
 import AuthScreen from './components/AuthScreen';
 import Dashboard from './pages/Dashboard';
 import ExplorePage from './pages/ExplorePage';
-import FindSchemesPage from './pages/FindSchemesPage';
 import SavedSchemesPage from './pages/SavedSchemesPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import EligibilityPage from './pages/EligibilityPage';
@@ -160,7 +159,6 @@ function WelforaRoutes() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/explore" element={<ExplorePage isRecommended={false} />} />
           <Route path="/recommended" element={<ExplorePage isRecommended={true} />} />
-          <Route path="/find-schemes" element={<FindSchemesPage />} />
           <Route path="/saved" element={<SavedSchemesPage />} />
           <Route path="/deadlines" element={<DeadlinesPage />} />
           <Route path="/chatbot" element={<AssistantPage />} />

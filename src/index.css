@@ -22,7 +22,20 @@ textarea {
 }
 
 button {
-  cursor: pointer
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover,
+a:focus,
+button:hover,
+button:focus {
+  text-decoration: none;
 }
 
 #root {

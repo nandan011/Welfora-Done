@@ -114,8 +114,8 @@ export default function EligibilityPage() {
             <button className="primary-btn" onClick={handleCheckGuidance}>
               Find relevant guidance <span>→</span>
             </button>
-            <button className="outline-btn" onClick={() => navigate('/find-schemes')}>
-              Full Profile Finder →
+            <button className="outline-btn" onClick={() => navigate('/explore')}>
+              Explore Schemes →
             </button>
           </div>
         </div>

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import PageTitle from '../components/PageTitle';
 import Empty from '../components/Empty';
 import { SearchIcon, BellIcon } from '../components/Icons';
-import { parseDemoDeadline } from '../utils/schemeUtils';
 import { useWelfora } from '../context/WelforaContext';
 import { categories } from '../data/categories';
 import './DeadlinesPage.css';
@@ -54,7 +53,6 @@ export default function DeadlinesPage() {
   // useNavigate: route to catalog when empty or exploring
   const navigate = useNavigate();
   const {
-    schemes,
     deadlineItems,
     reminderPreferences,
     setReminderPreferences,
@@ -66,12 +64,6 @@ export default function DeadlinesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All categories');
   const [sortBy, setSortBy] = useState('deadline');
-
-  const allSchemes = Array.isArray(schemes) ? schemes : [];
-  const undatedSchemes = useMemo(
-    () => allSchemes.filter(s => !parseDemoDeadline(s.deadline)),
-    [allSchemes]
-  );
 
   // Filtered and sorted deadline items
   const filteredDeadlines = useMemo(() => {
@@ -313,55 +305,6 @@ export default function DeadlinesPage() {
         />
       )}
 
-      {/* 5. Undated / Rolling Verification Section */}
-      {undatedSchemes.length > 0 && (
-        <div className="undated-schemes-card">
-          <div className="undated-header-row">
-            <div className="undated-title-area">
-              <div className="undated-icon-box">🛡️</div>
-              <div className="undated-text-content">
-                <h3>Ongoing & Verification-Required Schemes</h3>
-                <p>
-                  These programmes operate year-round, follow rolling regional notifications, or vary
-                  by local implementing bodies. They do not have fixed demo closing dates.
-                </p>
-              </div>
-            </div>
-            <button
-              className="btn-details"
-              onClick={() => navigate('/explore')}
-            >
-              Explore All Directory →
-            </button>
-          </div>
-
-          <div className="undated-grid">
-            {undatedSchemes.map(scheme => (
-              <div
-                className="undated-mini-item"
-                key={scheme.id}
-                onClick={() => setSelectedScheme(scheme)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={e => e.key === 'Enter' && setSelectedScheme(scheme)}
-              >
-                <div className="undated-mini-left">
-                  <div className={`undated-mini-icon scheme-symbol ${scheme.color}`}>
-                    {scheme.icon}
-                  </div>
-                  <div className="undated-mini-info">
-                    <b>{scheme.name}</b>
-                    <span>{scheme.category} · {scheme.state}</span>
-                  </div>
-                </div>
-                <span className="undated-status-tag">
-                  {scheme.deadline || 'Open year-round'}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </section>
   );
 }

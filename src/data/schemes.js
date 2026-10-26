@@ -14,7 +14,7 @@ export const schemes = [
     eligibility: 'Students admitted to eligible higher education institutions in India. Income and institution eligibility criteria apply.',
     documents: ['Admission letter from eligible institution', 'Identity proof (Aadhaar/passport)', 'Income certificate of parents/guardian', 'Academic records', 'Bank account details'],
     howToApply: 'Register on the PM Vidyalakshmi portal (vidyalakshmi.co.in). Select participating bank and submit loan application through the portal.',
-    applicationLink: 'https://www.vidyalakshmi.co.in',
+    applicationLink: 'https://pmvidyalaxmi.co.in/',
   },
   {
     id: 2,
@@ -48,7 +48,7 @@ export const schemes = [
     eligibility: 'Families identified under the Socio-Economic Caste Census (SECC) database and state-specific beneficiary lists. Check official portal for current criteria.',
     documents: ['Aadhaar card', 'Ration card (if applicable)', 'SECC/beneficiary identification', 'State-issued health card where applicable'],
     howToApply: 'Visit the nearest Common Service Centre (CSC) or empanelled hospital. Check eligibility at pmjay.gov.in using your Aadhaar or ration card.',
-    applicationLink: 'https://pmjay.gov.in',
+    applicationLink: 'https://pmay-urban.gov.in/',
   },
   {
     id: 4,
@@ -65,7 +65,7 @@ export const schemes = [
     eligibility: 'Eligibility varies by scheme component, household income group (EWS/LIG/MIG), household status and local Urban Local Body implementation.',
     documents: ['Aadhaar card', 'Income certificate', 'Property/land documents (if applicable)', 'Bank account details', 'Self-declaration of not owning pucca house'],
     howToApply: 'Apply through Urban Local Bodies (ULB) / Municipal Corporation or PMAY portal. Verify current open application windows with your local city office.',
-    applicationLink: 'https://pmaymis.gov.in',
+    applicationLink: 'https://pmay-urban.gov.in/',
   },
   {
     id: 5,
@@ -150,7 +150,7 @@ export const schemes = [
     eligibility: 'Small business owners, self-employed individuals and micro-entrepreneurs who are not defaulters and meet bank eligibility criteria.',
     documents: ['Identity proof', 'Address proof', 'Business plan / activity details', 'Bank statements', 'Photographs', 'Category certificate (if applicable for lower interest rates)'],
     howToApply: 'Apply through any participating bank, MFI or NBFC. Also apply online through mudra.org.in or bank websites.',
-    applicationLink: 'https://mudra.org.in',
+    applicationLink: 'https://www.mudra.org.in',
   },
   {
     id: 10,
@@ -183,8 +183,8 @@ export const schemes = [
     tag: 'Employment',
     eligibility: 'Indian nationals above 18 years. Priority to school/college dropouts and unemployed youth. Specific criteria depend on the training sector.',
     documents: ['Aadhaar card', 'Educational certificates', 'Bank account details', 'Photograph'],
-    howToApply: 'Find training centres at skillindia.gov.in or pmkvyofficial.org. Register online and enroll at the nearest certified centre.',
-    applicationLink: 'https://pmkvyofficial.org',
+    howToApply: 'Find training centres at skillindiadigital.gov.in or pmkvyofficial.org. Register online and enroll at the nearest certified centre.',
+    applicationLink: 'https://www.skillindiadigital.gov.in',
   },
   {
     id: 12,
@@ -251,8 +251,8 @@ export const schemes = [
     tag: 'Employment',
     eligibility: 'Graduates, diploma holders and ITI pass-outs in relevant trade/discipline. Age and qualification criteria apply per establishment.',
     documents: ['Educational certificates (degree/diploma/ITI)', 'Aadhaar card', 'Photograph', 'Bank account details'],
-    howToApply: 'Register at apprenticeshipindia.org. Search for training opportunities and apply through participating establishments.',
-    applicationLink: 'https://apprenticeshipindia.org',
+    howToApply: 'Register at nats.education.gov.in or apprenticeshipindia.gov.in. Search for training opportunities and apply through participating establishments.',
+    applicationLink: 'https://nats.education.gov.in',
   },
   {
     id: 16,

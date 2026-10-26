@@ -4,7 +4,6 @@ import { useWelfora } from '../context/WelforaContext';
 import {
   DashboardIcon,
   CompassIcon,
-  TargetFinderIcon,
   SparklesIcon,
   BookmarkIcon,
   ClockIcon,
@@ -21,7 +20,6 @@ import {
 const NAV_ITEMS = [
   ['Dashboard', DashboardIcon, '/'],
   ['Explore Schemes', CompassIcon, '/explore'],
-  ['Find My Schemes', TargetFinderIcon, '/find-schemes'],
   ['Recommended', SparklesIcon, '/recommended'],
   ['Saved Schemes', BookmarkIcon, '/saved'],
   ['Deadlines', ClockIcon, '/deadlines'],

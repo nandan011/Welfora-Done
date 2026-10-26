@@ -23,7 +23,20 @@ select {
 }
 
 button {
-  cursor: pointer
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus,
+button:hover,
+button:focus {
+  text-decoration: none;
 }
 
 .wf {
@@ -480,6 +493,7 @@ button {
   border-radius: 50%;
   background: var(--panel);
   color: var(--muted);
+  text-decoration: none;
   cursor: pointer;
   transition: all .2s ease;
 }
@@ -536,6 +550,7 @@ button {
   color: var(--text);
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
   transition: all .18s ease;
 }
@@ -567,12 +582,14 @@ button {
   font-size: 14.5px;
   font-weight: 600;
   white-space: nowrap;
-  transition: .18s
+  transition: .18s;
+  text-decoration: none;
 }
 
 .outline-btn:hover {
   border-color: var(--purple);
-  color: var(--purple)
+  color: var(--purple);
+  text-decoration: none;
 }
 
 .primary-btn {
@@ -580,12 +597,14 @@ button {
   background: linear-gradient(105deg, #7847f6, #a044f5 62%, #4d9cff);
   color: white;
   font-weight: 700;
-  box-shadow: 0 4px 18px #8245ff28
+  box-shadow: 0 4px 18px #8245ff28;
+  text-decoration: none;
 }
 
 .primary-btn:hover {
   filter: brightness(1.12);
-  transform: translateY(-1px)
+  transform: translateY(-1px);
+  text-decoration: none;
 }
 
 .primary-btn.small {
@@ -693,7 +712,8 @@ button {
   background: #090e20;
   color: var(--text);
   font-size: 14.5px;
-  font-weight: 600
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .light .hero-secondary {
@@ -3689,106 +3709,6 @@ button {
 .outline-btn.small { padding: 4px 12px; font-size: 12.5px; }
 
 /* =====================================================
-   FIND SCHEMES PAGE
-   ===================================================== */
-.find-schemes-layout {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 20px;
-  align-items: flex-start;
-}
-.find-form-panel { padding: 28px; }
-.find-form-header {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-}
-.find-form-header h2 { margin: 0 0 4px; font-size: 20px; }
-.find-form-header p { margin: 0; color: var(--muted); font-size: 13.5px; }
-.find-form-orb {
-  width: 44px; height: 44px; border-radius: 14px;
-  background: linear-gradient(135deg, #7c3aed, #06b6d4);
-  display: grid; place-items: center;
-  font-size: 18px; flex-shrink: 0;
-  box-shadow: 0 0 20px #7c3aed44;
-}
-
-.find-form { display: flex; flex-direction: column; gap: 16px; }
-.find-field { display: flex; flex-direction: column; gap: 6px; }
-.find-field label { font-size: 14.5px; font-weight: 600; color: var(--muted); letter-spacing: 0.3px; }
-.find-field input,
-.find-field select {
-  background: var(--panel2);
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  color: var(--text);
-  padding: 11px 14px;
-  font-size: 15px;
-  transition: border 0.2s, box-shadow 0.2s;
-  width: 100%;
-}
-.find-field input:focus, .find-field select:focus {
-  outline: none;
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px #7c3aed22;
-}
-.find-field.has-error input,
-.find-field.has-error select {
-  border-color: #f87171;
-  box-shadow: 0 0 0 3px #f8717122;
-}
-.field-error { color: #f87171; font-size: 12px; }
-.field-hint { color: var(--faint); font-size: 13px; }
-.req { color: #f87171; }
-.optional { color: var(--faint); font-size: 13px; font-weight: 400; }
-
-.find-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.find-form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
-.find-submit-btn { flex: 1; min-width: 180px; justify-content: center; }
-
-/* Results Panel */
-.find-results-panel { display: flex; flex-direction: column; gap: 20px; }
-.find-results-header {
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-}
-.find-results-header h2 { margin: 0 0 4px; font-size: 20px; }
-.find-results-header p { margin: 0; color: var(--muted); font-size: 14.5px; }
-.result-badge {
-  background: var(--purple); color: #fff;
-  padding: 4px 12px; border-radius: 20px;
-  font-size: 13px;
-  padding: 5px 14px; font-weight: 600;
-}
-.find-eligibility-note {
-  display: flex; gap: 10px; align-items: flex-start;
-  background: rgba(96, 165, 250, 0.08);
-  border: 1px solid rgba(96, 165, 250, 0.2);
-  border-radius: 10px; padding: 14px 18px;
-  font-size: 14.5px; color: var(--muted); line-height: 1.6;
-}
-.find-eligibility-note b { color: var(--text); }
-
-/* Placeholder */
-.find-placeholder-panel {
-  display: flex; align-items: center; justify-content: center;
-  min-height: 400px;
-}
-.find-placeholder-inner {
-  text-align: center; max-width: 340px;
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-}
-.find-placeholder-orb {
-  width: 64px; height: 64px; border-radius: 20px;
-  background: var(--panel2); border: 1px solid var(--line);
-  display: grid; place-items: center; font-size: 28px;
-}
-.find-placeholder-inner h3 { margin: 0; font-size: 17.5px; }
-.find-placeholder-inner p { margin: 0; color: var(--muted); font-size: 13.5px; }
-.find-placeholder-list {
-  text-align: left; list-style: none; padding: 0; margin: 0;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.find-placeholder-list li { color: var(--muted); font-size: 12.5px; }
-
-/* =====================================================
    HOW IT WORKS SECTION
    ===================================================== */
 .how-it-works {
@@ -3836,63 +3756,6 @@ button {
 .hiw-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
 /* =====================================================
-   FIND SCHEMES BANNER (dashboard)
-   ===================================================== */
-.find-schemes-banner {
-  display: flex; align-items: center; gap: 12px;
-  width: 100%; padding: 14px 16px;
-  background: linear-gradient(135deg, #1a2c4a 0%, #0f1f36 100%);
-  border: 1px solid rgba(96,165,250,0.25);
-  border-radius: 14px; color: var(--text);
-  cursor: pointer; transition: all 0.2s;
-  text-align: left;
-  margin-top: 10px;
-}
-.find-schemes-banner:hover { border-color: #60a5fa; transform: translateY(-2px); }
-.find-schemes-mini {
-  font-size: 22px; width: 40px; height: 40px;
-  display: grid; place-items: center;
-  background: rgba(96,165,250,0.1); border-radius: 10px;
-  flex-shrink: 0;
-}
-.find-schemes-banner b { display: block; font-size: 16.5px; }
-.find-schemes-banner small { color: var(--muted); font-size: 13.5px; }
-
-/* Light mode for Find Schemes banner */
-.light .find-schemes-banner,
-.wf.light .find-schemes-banner {
-  background: linear-gradient(110deg, #eef7ff 0%, #f4faff 100%);
-  border: 1px solid #c8e1fb;
-  color: #173859;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.06);
-}
-.light .find-schemes-banner:hover,
-.wf.light .find-schemes-banner:hover {
-  border-color: #7cb3f8;
-  background: linear-gradient(110deg, #e3f1fd 0%, #edf6fe 100%);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
-  transform: translateY(-2px);
-}
-.light .find-schemes-banner b,
-.wf.light .find-schemes-banner b {
-  color: #102a45;
-  font-weight: 700;
-}
-.light .find-schemes-banner small,
-.wf.light .find-schemes-banner small {
-  color: #4b6b88;
-}
-.light .find-schemes-mini,
-.wf.light .find-schemes-mini {
-  background: #dbeafe;
-  border: 1px solid #bfdbfe;
-}
-.light .find-schemes-banner .assistant-go,
-.wf.light .find-schemes-banner .assistant-go {
-  color: #1d4ed8;
-}
-
-/* =====================================================
    SCHEME DETAIL PAGE
    ===================================================== */
 .scheme-detail-page { }
@@ -3901,8 +3764,9 @@ button {
   font-size: 14.5px; cursor: pointer; padding: 0;
   display: inline-flex; align-items: center; gap: 6px;
   margin-bottom: 16px; transition: color 0.2s;
+  text-decoration: none;
 }
-.back-link:hover { color: var(--text); }
+.back-link:hover { color: var(--text); text-decoration: none; }
 
 .scheme-detail-header {
   display: grid;
@@ -4268,9 +4132,6 @@ button {
    RESPONSIVE — TABLET
    ===================================================== */
 @media (max-width: 900px) {
-  .find-schemes-layout {
-    grid-template-columns: 1fr;
-  }
   .scheme-detail-header {
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;

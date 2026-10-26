@@ -11,7 +11,7 @@ export default function SchemeDetailPage({ scheme: propScheme, onBack }) {
   const { id } = useParams();
   // useNavigate: programmatic back navigation
   const navigate = useNavigate();
-  const { schemes, assessedSchemes, saved, toggleSave, eligibility, profileName } = useWelfora();
+  const { schemes, assessedSchemes, saved, toggleSave, applyScheme, eligibility, profileName } = useWelfora();
 
   const allSchemesList = assessedSchemes && assessedSchemes.length > 0 ? assessedSchemes : (schemes || []);
   const scheme = propScheme || allSchemesList.find(s => String(s.id) === String(id));
@@ -82,15 +82,17 @@ export default function SchemeDetailPage({ scheme: propScheme, onBack }) {
           >
             Check My Eligibility
           </button>
-          <button
+          <a
+            href={scheme.applicationLink || 'https://www.myscheme.gov.in'}
+            target="_blank"
+            rel="noopener noreferrer"
             className="primary-btn"
             onClick={() => {
-              const url = scheme.applicationLink || 'https://www.myscheme.gov.in';
-              window.open(url, '_blank', 'noopener,noreferrer');
+              applyScheme(scheme.id);
             }}
           >
             Track Scheme →
-          </button>
+          </a>
         </div>
       </div>
 

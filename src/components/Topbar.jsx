@@ -13,7 +13,6 @@ const TOP_LINKS = [
 const ROUTE_TITLES = {
   '/': 'Dashboard',
   '/explore': 'Explore Schemes',
-  '/find-schemes': 'Find My Schemes',
   '/recommended': 'Recommended',
   '/saved': 'Saved Schemes',
   '/deadlines': 'Deadlines',
@@ -88,10 +87,10 @@ export default function Topbar() {
         </Link>
 
         <Link
-          to="/find-schemes"
+          to="/explore"
           className="primary-btn small"
         >
-          Find Schemes
+          Explore
         </Link>
       </div>
     </header>

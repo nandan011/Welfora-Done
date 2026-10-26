@@ -74,16 +74,17 @@ export default function SchemeModal({ scheme, onClose, isSaved, onToggleSave, on
             <HeartIcon size={16} filled={isSaved} />
             <span>{isSaved ? 'Saved' : 'Save scheme'}</span>
           </button>
-          <button
+          <a
+            href={scheme.applicationLink || 'https://www.myscheme.gov.in'}
+            target="_blank"
+            rel="noopener noreferrer"
             className="primary-btn"
             onClick={() => {
               if (onApply) onApply(scheme.id);
-              const url = scheme.applicationLink || 'https://www.myscheme.gov.in';
-              window.open(url, '_blank', 'noopener,noreferrer');
             }}
           >
             Track Scheme <span>→</span>
-          </button>
+          </a>
         </div>
       </div>
     </div>

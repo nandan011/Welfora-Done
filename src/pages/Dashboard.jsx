@@ -94,11 +94,11 @@ export default function Dashboard() {
             Discover government schemes tailored for you and your family, understand eligibility in clear plain language, and navigate applications with confidence.
           </p>
           <div className="hero-actions">
-            <button className="primary-btn" onClick={() => navigate('/find-schemes')}>
-              Find Schemes For Me <span>→</span>
+            <button className="primary-btn" onClick={() => navigate('/explore')}>
+              Explore Schemes <span>→</span>
             </button>
-            <button className="hero-secondary" onClick={() => navigate('/explore')}>
-              Explore all {totalSchemesCount > 0 ? `${totalSchemesCount} ` : ''}schemes
+            <button className="hero-secondary" onClick={() => navigate('/recommended')}>
+              Recommended for you
             </button>
           </div>
         </div>
@@ -276,8 +276,8 @@ export default function Dashboard() {
             <Empty
               title="No recommendations yet"
               text="Complete your profile to receive tailored scheme suggestions."
-              action="Find Schemes"
-              onAction={() => navigate('/find-schemes')}
+              action="Explore Schemes"
+              onAction={() => navigate('/explore')}
             />
           )}
         </div>
@@ -318,15 +318,6 @@ export default function Dashboard() {
             <span className="assistant-go">↗</span>
           </button>
 
-          {/* Find Schemes CTA */}
-          <button className="find-schemes-banner" onClick={() => navigate('/find-schemes')}>
-            <span className="find-schemes-mini">🔍</span>
-            <span>
-              <b>Find Schemes For Me</b>
-              <small>Enter your profile, get personalised suggestions</small>
-            </span>
-            <span className="assistant-go">→</span>
-          </button>
         </div>
       </div>
 

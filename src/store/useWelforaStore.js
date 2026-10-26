@@ -197,16 +197,11 @@ export const useWelforaStore = create((set, get) => ({
   exploreQuery: '',
   exploreCategory: 'All categories',
   exploreState: 'All states',
-  findProfile: getStoredJson('welfora-find-profile', null),
   selectedScheme: null,
 
   setExploreQuery: (query) => set({ exploreQuery: query }),
   setExploreCategory: (category) => set({ exploreCategory: category }),
   setExploreState: (state) => set({ exploreState: state }),
-  setFindProfile: (profile) => {
-    setStoredJson('welfora-find-profile', profile);
-    set({ findProfile: profile });
-  },
   setSelectedScheme: (scheme) => set({ selectedScheme: scheme }),
 
   // ==========================================
